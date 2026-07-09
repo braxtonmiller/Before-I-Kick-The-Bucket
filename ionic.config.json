@@ -1,0 +1,7 @@
+{
+  "name": "Before I Kick The Bucket",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
