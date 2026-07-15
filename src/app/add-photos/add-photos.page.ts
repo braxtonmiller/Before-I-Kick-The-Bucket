@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-add-photos',
   templateUrl: './add-photos.page.html',
   styleUrls: ['./add-photos.page.scss'],
+  standalone: false,
 })
 export class AddPhotosPage implements OnInit {
 
