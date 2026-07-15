@@ -10,7 +10,27 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'bucket',
+    loadChildren: () => import('./bucket/bucket.module').then( m => m.BucketPageModule)
+  },
+  {
+    path: 'add-photos',
+    loadChildren: () => import('./add-photos/add-photos.module').then( m => m.AddPhotosPageModule)
+  },
+  {
+    path: 'community',
+    loadChildren: () => import('./community/community.module').then( m => m.CommunityPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+
 ];
 
 @NgModule({
