@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { 
+import {
   Auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut
- } from '@angular/fire/auth';
+} from '@angular/fire/auth';
 
 
 @Injectable({
@@ -19,11 +19,26 @@ export class AuthService {
   }
 
   async register(email: string, password: string, passwordConf: string) {
-
+    if (password != passwordConf) {
+      throw new Error('Passwords do not match');
+    }
+    try {
+      let user = await createUserWithEmailAndPassword(this.auth, email, password);
+      return user;
+    }
+    catch (e: any) {
+      return null;
+    }
   }
 
   async login(email: string, password: string) {
-
+    try {
+      let user = await signInWithEmailAndPassword(this.auth, email, password);
+      return user;
+    }
+    catch (e: any) {
+      return null;
+    }
   }
 
   async logout() {
