@@ -33,7 +33,7 @@ export class LoginPage implements OnInit {
     let result = this.authService.login(this.emailIn, this.passwordIn);
 
     if (result != null) {
-      this.router.navigateByUrl('home');
+      this.router.navigateByUrl('tabs/home');
     }
     else {
       window.alert('Incorrect Login');
