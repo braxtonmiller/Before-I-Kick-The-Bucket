@@ -1,0 +1,31 @@
+.profilePic {
+    // object-fit: cover;
+    height: 22em;
+    width: 22em;
+    // position: relative;
+    left: 36.5em;
+    top: 5em;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profileInfo {
+    font-size: large;
+    position: relative;
+    top: 5em;
+}
+
+.addProfileCard {
+  top: 2%;
+  height: 30em;
+  width:20em;
+   display: flex;
+  flex-direction: column;
+}
+
+.addProfileButton {
+  position:relative;
+  height: 2em;
+  width: 15em;
+  margin-top: 1.5em;
+}
