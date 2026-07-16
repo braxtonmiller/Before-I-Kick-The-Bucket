@@ -6,8 +6,7 @@ import { Bucket, BucketItem } from '../services/bucket';
   selector: 'app-bucket',
   templateUrl: './bucket.page.html',
   styleUrls: ['./bucket.page.scss'],
-  standalone: true,
-
+  standalone: false,
 })
 export class BucketPage implements OnInit {
 

@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 
 const routes: Routes = [
+   {
+    path: 'example',
+    component: TabBarComponent,
+    children: [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
@@ -10,10 +15,8 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  
   {
     path: 'bucket',
     loadChildren: () => import('./bucket/bucket.module').then( m => m.BucketPageModule)
@@ -31,6 +34,16 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
 
+    ]},
+    {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
 ];
 
 @NgModule({
