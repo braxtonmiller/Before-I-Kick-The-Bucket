@@ -4,6 +4,23 @@
     width: 20em;
 }
 
+.profilePic {
+    // object-fit: cover;
+    height: 22em;
+    width: 22em;
+    // position: relative;
+    left: 36.5em;
+    top: 5em;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profileInfo {
+    font-size: large;
+    position: relative;
+    top: 5em;
+}
+
 .profilePictures {
     height: auto;
     width: 100%;
@@ -14,14 +31,14 @@
   margin-bottom: 3em;
 }
 
-.addProfileCard {
-  top: 2%;
-  height: 30em;
-  width:20em;
-}
+// .addProfileCard {
+//   top: 2%;
+//   height: 30em;
+//   width:20em;
+// }
 
-.addProfileButton {
-  position: relative;
-  height: 5em;
-  width: 10em
-}
+// .addProfileButton {
+//   position: relative;
+//   height: 5em;
+//   width: 10em
+// }

@@ -8,17 +8,17 @@ import { Profile } from './models/profile';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  testProfileInfo: Profile = new Profile("Test Profile", "1234@gmail.com", "308-230-1234", "imgURL")
-  smokeyInfo: Profile = new Profile("Smokey", "kajdn", "Rottweiler", "assets/Rottweiler-Smokey.jpeg")
-  barkSimpsonInfo: Profile = new Profile("Bark Simpson", "kaadjoc", "Russell Terrier", "assets/Bark Simpson.png")
-  marcusInfo: Profile = new Profile("Marcus", "andjc", "Dachshund", "assets/Dachshund.png")
+  testProfileInfo: Profile = new Profile("Test Profile", "1234@gmail.com", "308-230-1234", "/assets/icon/favicon.png")
+  // smokeyInfo: Profile = new Profile("Smokey", "kajdn", "Rottweiler", "assets/Rottweiler-Smokey.jpeg")
+  // barkSimpsonInfo: Profile = new Profile("Bark Simpson", "kaadjoc", "Russell Terrier", "assets/Bark Simpson.png")
+  // marcusInfo: Profile = new Profile("Marcus", "andjc", "Dachshund", "assets/")
 
   arrayOfInfo: Profile[] = [
     this.testProfileInfo,
-    this.smokeyInfo,
-    this.barkSimpsonInfo,
-    this.marcusInfo,
-    new Profile("Sylvie", "kjdvkj", "Mini Aussiedoodle", "assets/Mini Aussiedoodle.webp")
+    // this.smokeyInfo,
+    // this.barkSimpsonInfo,
+    // this.marcusInfo,
+    // new Profile("Sylvie", "kjdvkj", "Mini Aussiedoodle", "assets/Mini Aussiedoodle.webp")
   ]
 
   profileUsernameInput: string = ""
@@ -33,10 +33,10 @@ export class ProfilePage implements OnInit {
 
   }
 
-  addNewProfile() {
-    let newProfile = new Profile(this.profileUsernameInput, this.profileEmailInput, this.profilePhoneNumberInput, this.profileImageURLInput);
-    this.arrayOfInfo.push(newProfile)
-  }
+  // addNewProfile() {
+  //   let newProfile = new Profile(this.profileUsernameInput, this.profileEmailInput, this.profilePhoneNumberInput, this.profileImageURLInput);
+  //   this.arrayOfInfo.push(newProfile)
+  // }
 
 
 
