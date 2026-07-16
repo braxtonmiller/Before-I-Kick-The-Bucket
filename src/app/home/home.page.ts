@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../service/auth';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  standalone: false,
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
+  standalone: false
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   constructor(
     private authService: AuthService,
@@ -20,4 +18,5 @@ async signOut() {
     this.router.navigateByUrl('login');
   }
 
+  ngOnInit() {}
 }
