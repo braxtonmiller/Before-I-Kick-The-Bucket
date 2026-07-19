@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from './models/profile';
 
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -8,36 +11,40 @@ import { Profile } from './models/profile';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  testProfileInfo: Profile = new Profile("Test Profile", "1234@gmail.com", "308-230-1234", "/assets/icon/favicon.png")
-  // smokeyInfo: Profile = new Profile("Smokey", "kajdn", "Rottweiler", "assets/Rottweiler-Smokey.jpeg")
-  // barkSimpsonInfo: Profile = new Profile("Bark Simpson", "kaadjoc", "Russell Terrier", "assets/Bark Simpson.png")
-  // marcusInfo: Profile = new Profile("Marcus", "andjc", "Dachshund", "assets/")
 
-  arrayOfInfo: Profile[] = [
-    this.testProfileInfo,
-    // this.smokeyInfo,
-    // this.barkSimpsonInfo,
-    // this.marcusInfo,
-    // new Profile("Sylvie", "kjdvkj", "Mini Aussiedoodle", "assets/Mini Aussiedoodle.webp")
-  ]
+  profileUsernameInput: string = "";
+  profileEmailInput: string = "";
+  profilePhoneNumberInput: string = "";
+  profileImageURLInput: string = "";
 
-  profileUsernameInput: string = ""
-  profileEmailInput: string = ""
-  profilePhoneNumberInput: string = ""
-  profileImageURLInput: string = ""
-  
+  constructor(
+    private firestore: Firestore,
+    private auth: Auth
+  ) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  async saveProfile() {
 
+    const user = this.auth.currentUser;
+
+    if (!user) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const profileData = {
+      username: this.profileUsernameInput,
+      email: this.profileEmailInput,
+      phoneNumber: this.profilePhoneNumberInput,
+      profilePicture: this.profileImageURLInput
+    };
+
+    await setDoc(
+      doc(this.firestore, "users", user.uid),
+      profileData
+    );
+
+    alert("Profile Saved!");
   }
-
-  // addNewProfile() {
-  //   let newProfile = new Profile(this.profileUsernameInput, this.profileEmailInput, this.profilePhoneNumberInput, this.profileImageURLInput);
-  //   this.arrayOfInfo.push(newProfile)
-  // }
-
-
-
 }
