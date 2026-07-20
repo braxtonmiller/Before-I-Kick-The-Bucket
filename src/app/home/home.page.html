@@ -13,8 +13,20 @@
   <ion-header collapse="condense">
     Hello, (username)
   </ion-header>
-  <ion-card>
-    Progress
+  <ion-card class="progress-card">
+    <ion-card class="progress-card">
+      <img class="progress-card__bg" src="src/assets/mountainroad.jpg">
+      <div class="progress-card__overlay"></div>
+ 
+      <div class="progress-ring">
+        <span class="progress-ring__label">{{ percentComplete }}%</span>
+      </div>
+ 
+      <div class="progress-card__text">
+        <p class="progress-card__count">{{ goalsCompleted }} of {{ goalsTotal }}</p>
+        <p class="progress-card__caption">Goals Completed</p>
+      </div>
+    </ion-card>
   </ion-card>
   <ion-card>
     Next
