@@ -1,13 +1,22 @@
-.profileCards {
-    top: 2%;
-    height: 30em;
-    width: 20em;
+// .profileCards {
+//     top: 2%;
+//     height: 30em;
+//     width: 20em;
+// }
+
+ion-content {
+    --background: linear-gradient(to top, #8d09c6, #afafaf);
+}
+
+.editProfileButton {
+--background: rgb(147, 147, 147);
+
 }
 
 .profilePic {
     // object-fit: cover;
-    height: 22em;
-    width: 22em;
+    height: 20em;
+    width: 20em;
     // position: relative;
     left: 36.5em;
     top: 5em;
@@ -15,10 +24,16 @@
     overflow: hidden;
 }
 
+.picture-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .profileInfo {
     font-size: large;
     position: relative;
-    top: 5em;
+    top: 1em;
 }
 
 .profilePictures {
