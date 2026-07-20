@@ -1,13 +1,80 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>bucket</ion-title>
+    <ion-title>
+      {{userName}}'s Bucket List 🌎
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">bucket</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<ion-content>
+
+  <!-- Progress Card -->
+
+  <div class="progress-card">
+
+    <h1>{{completedItems}} / {{totalItems}}</h1>
+
+    <p>{{progress | number:'1.0-0'}}% of your dreams completed ✨</p>
+
+    <ion-progress-bar
+      [value]="progress / 100">
+    </ion-progress-bar>
+
+  </div>
+
+
+  <!-- Bucket Items -->
+
+  <ion-card *ngFor="let item of bucketList; let i=index">
+
+
+    <div class="number-circle">
+      {{i + 1}}
+    </div>
+
+
+    <img [src]="item.image">
+
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{item.title}}
+      </ion-card-title>
+
+    </ion-card-header>
+
+
+    <ion-card-content>
+
+      <p>
+        {{item.description}}
+      </p>
+
+
+      <div 
+      class="status completed"
+      *ngIf="item.completed">
+
+        ✓ Completed
+
+      </div>
+
+
+      <div 
+      class="status incomplete"
+      *ngIf="!item.completed">
+
+        ✕ Not Completed
+
+      </div>
+
+
+    </ion-card-content>
+
+
+  </ion-card>
+
+
 </ion-content>
