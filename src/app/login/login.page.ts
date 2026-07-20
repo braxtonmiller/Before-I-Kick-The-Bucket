@@ -25,26 +25,52 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewWillEnter() {
+    this.clearFields();
+  }
+
   async login() {
     let result = this.authService.login(this.emailIn, this.passwordIn);
 
     if (result != null) {
-      this.router.navigateByUrl('home');
+      this.router.navigateByUrl('tabs/home');
     }
     else {
       window.alert('Incorrect Login');
+      this.clearPasswords();
     }
   }
 
   async register() {
-    let result = await this.authService.register(this.registerEmailIn, this.registerPasswordIn, this.registerPasswordConfIn);
+    try {
+  let result = await this.authService.register(this.registerEmailIn, this.registerPasswordIn, this.registerPasswordConfIn);
   
     if (result != null) {
       this.router.navigateByUrl('home');
     }
     else {
       window.alert('Account Creation Failed');
+      this.clearPasswords();
+    }
+    }
+    catch (e: any) {
+      window.alert(e.message);
     }
   }
 
+clearFields() {
+  this.emailIn = '';
+  this.registerEmailIn = '';
+  this.clearPasswords();
+}
+
+clearPasswords() {
+  this.passwordIn = '';
+  this.registerPasswordIn = '';
+  this.registerPasswordConfIn = '';
+}
+
+goToCommunity() {
+  this.router.navigateByUrl('/community');
+}
 }

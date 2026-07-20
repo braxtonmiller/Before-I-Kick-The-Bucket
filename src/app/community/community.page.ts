@@ -1,9 +1,17 @@
+// import { Component, OnInit } from '@angular/core';
+// import {
+//   Firestore,
+//   collection,
+//   collectionData
+// } from '@angular/fire/firestore';
+
 import { Component } from '@angular/core';
 
 interface User {
-  username: string;
-  name: string;
-  profilePicture: string;
+  profileUsername: string;
+  profileEmail: string;
+  profilePhoneNumber: string;
+  profileImageURL: string;
 }
 @Component({
   standalone: false,
@@ -13,18 +21,24 @@ interface User {
 })
 export class CommunityPage {
 
+  trackByUsername(index: number, friend: User): string {
+    return friend.profileUsername;
+  }
+
   searchText: string = '';
 
   friends: User[] = [
     {
-      username: 'finno',
-      name: 'Finn Oroszi',
-      profilePicture: 'https://ionicframework.com/docs/img/demos/avatar.svg'
+      profileUsername: 'finno',
+      profileEmail: 'finn@example.com',
+      profilePhoneNumber: '123-456-7890',
+      profileImageURL: 'https://ionicframework.com/docs/img/demos/avatar.svg'
     },
     {
-      username: 'jane23',
-      name: 'Jane Smith',
-      profilePicture: 'https://ionicframework.com/docs/img/demos/avatar.svg'
+      profileUsername: 'jane23',
+      profileEmail: 'jane@example.com',
+      profilePhoneNumber: '987-654-3210',
+      profileImageURL: 'https://ionicframework.com/docs/img/demos/avatar.svg'
     },
 
   ];
@@ -43,16 +57,15 @@ export class CommunityPage {
     }
 
     this.filteredFriends = this.friends.filter(friend =>
-      friend.username.toLowerCase().includes(search) ||
-      friend.name.toLowerCase().includes(search)
+      friend.profileUsername.toLowerCase().includes(search) ||
+      friend.profileEmail.toLowerCase().includes(search)
     );
   }
 
   openProfile(friend: User) {
-    console.log('Opening profile:', friend.username);
+    console.log('Opening profile:', friend.profileUsername);
 
-    // Later:
-    // this.router.navigate(['/profile', friend.username]);
+
   }
 
 }

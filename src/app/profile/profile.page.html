@@ -1,59 +1,49 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
 
-  @for(item of arrayOfInfo; track $index) {
-  <app-profile-display [profileIn]="item">
-  </app-profile-display>
-  }
-  
+  <div class="profile-container">
 
-  <ion-card class="addProfileCard">
+    <img
+      [src]="profileImageURLInput || 'https://ionicframework.com/docs/img/demos/avatar.svg'"
+      class="profile-pic">
 
-    <ion-grid>
-      <ion-row></ion-row>
-      <ion-row>
-        <ion-col></ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-input [(ngModel)]="profileUsernameInput" placeholder="Enter username..." type="string"></ion-input>
-          </ion-item>
+    <ion-card>
 
-          <ion-item>
-            <ion-input [(ngModel)]="profileEmailInput" placholder="Enter email..." type="string"></ion-input>
-          </ion-item>
+      <ion-card-content>
 
-          <ion-item>
-            <ion-input [(ngModel)]="profilePhoneNumberInput" placeholder="Enter phone number..." type="string"></ion-input>
-          </ion-item>
+        <ion-input
+          label="Username"
+          [(ngModel)]="profileUsernameInput">
+        </ion-input>
 
-          <ion-item>
-            <ion-input [(ngModel)]="profileImageURLInput" placeholder="Enter image URL..." type="string"></ion-input>
-          </ion-item>
-          
-          <ion-button class="addProfileButton" (click)="addNewProfile()">+Add Profile</ion-button>
-        </ion-col>
-        <ion-col></ion-col>
-      </ion-row>
-      <ion-row></ion-row>
-    </ion-grid>
+        <ion-input
+          label="Email"
+          [(ngModel)]="profileEmailInput">
+        </ion-input>
 
-  </ion-card>
+        <ion-input
+          label="Phone Number"
+          [(ngModel)]="profilePhoneNumberInput">
+        </ion-input>
+
+        <ion-input
+          label="Profile Picture URL"
+          [(ngModel)]="profileImageURLInput">
+        </ion-input>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-button (click)="saveProfile()">
+      Save Profile
+    </ion-button>
+
+  </div>
+
 </ion-content>
-
-
-<!-- <ion-content class="profilePic">
-  <ion-img src="../../assets/Teddy.png" alt="Profile Pic"></ion-img>
-</ion-content>
-
-<ion-content class="profileInfo">
-  <ion-title style="font-size: 30px; text-align: center;"> Username:<p style="font-size: 15px; text-align: center;">TEDDY_B3AR984</p>
-  </ion-title>
-  <ion-title style="font-size: 30px; text-align: center;">Email:<p style="font-size: 15px; text-align: center;">theodorewiberg@gmail.com</p></ion-title>
-  <ion-title style="font-size: 30px; text-align: center;">Phone Number:<p style="font-size: 15px; text-align: center;">(308)-625-9876</p></ion-title>
-</ion-content> -->
