@@ -26,7 +26,7 @@ bucketList: BucketItem[] = [];
       id: 1,
       title: "Study Abroad in Spain",
       description: "Spend spring semester in Spain.",
-      image: "assets/images/spain.jpg",
+      image: "assets/spain.jpg",
       completed: false
     });
 
@@ -34,7 +34,7 @@ bucketList: BucketItem[] = [];
       id: 2,
       title: "Go Skydiving",
       description: "Schedule Jump Omaha in August.",
-      image: "assets/images/skydive.jpg",
+      image: "assets/skydive.jpg",
       completed: true
     });
 

@@ -1,19 +1,21 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>
-      {{ userName }}'s Bucket List
+      {{userName}}'s Bucket List 🌎
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
 
-  <!-- Progress Section -->
-  <div class="progress-container">
+  <!-- Progress Card -->
 
-    <h2>{{ completedItems }} / {{ totalItems }}</h2>
+  <div class="progress-card">
 
-    <p>{{ progress | number:'1.0-0' }}% Complete</p>
+    <h1>{{completedItems}} / {{totalItems}}</h1>
+
+    <p>{{progress | number:'1.0-0'}}% of your dreams completed ✨</p>
 
     <ion-progress-bar
       [value]="progress / 100">
@@ -21,49 +23,58 @@
 
   </div>
 
-  <!-- Bucket List Cards -->
-  <ion-card *ngFor="let item of bucketList; let i = index">
 
-    <img [src]="item.image" alt="{{item.title}}">
+  <!-- Bucket Items -->
+
+  <ion-card *ngFor="let item of bucketList; let i=index">
+
+
+    <div class="number-circle">
+      {{i + 1}}
+    </div>
+
+
+    <img [src]="item.image">
+
 
     <ion-card-header>
 
-      <ion-card-subtitle>
-        Bucket List Item #{{ i + 1 }}
-      </ion-card-subtitle>
-
       <ion-card-title>
-        {{ item.title }}
+        {{item.title}}
       </ion-card-title>
 
     </ion-card-header>
 
+
     <ion-card-content>
 
-      <p>{{ item.description }}</p>
+      <p>
+        {{item.description}}
+      </p>
 
-      <div class="status">
 
-        <ion-icon
-          *ngIf="item.completed"
-          name="checkmark-circle"
-          color="success">
-        </ion-icon>
+      <div 
+      class="status completed"
+      *ngIf="item.completed">
 
-        <ion-icon
-          *ngIf="!item.completed"
-          name="close-circle"
-          color="danger">
-        </ion-icon>
-
-        <span>
-          {{ item.completed ? 'Completed' : 'Incomplete' }}
-        </span>
+        ✓ Completed
 
       </div>
 
+
+      <div 
+      class="status incomplete"
+      *ngIf="!item.completed">
+
+        ✕ Not Completed
+
+      </div>
+
+
     </ion-card-content>
 
+
   </ion-card>
+
 
 </ion-content>

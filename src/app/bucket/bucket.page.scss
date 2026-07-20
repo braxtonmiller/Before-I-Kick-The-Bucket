@@ -1,99 +1,189 @@
 ion-content {
 
-  --background: #f5f5f5;
+  --background: #fff7f2;
 
 }
 
-.progress-container {
 
-  padding: 20px;
+/* Header */
 
-  text-align: center;
+ion-toolbar {
 
-  background: white;
+  --background: #a63cdf;
 
-  border-radius: 20px;
-
-  margin: 20px;
-
-  box-shadow: 0 3px 8px rgba(0,0,0,.12);
+  --color: white;
 
 }
 
-.progress-container h2 {
 
-  font-size: 34px;
+/* Progress */
 
-  font-weight: bold;
+.progress-card {
 
-  margin-bottom: 5px;
+  background:white;
+
+  margin:20px;
+
+  padding:25px;
+
+  border-radius:25px;
+
+  text-align:center;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
 
 }
 
-.progress-container p {
 
-  color: gray;
+.progress-card h1 {
 
-  margin-bottom: 15px;
+  font-size:42px;
+
+  margin:0;
+
+  font-weight:800;
 
 }
+
+
+.progress-card p {
+
+  color:#000000;
+
+  font-size:16px;
+
+}
+
 
 ion-progress-bar {
 
-  height: 14px;
+  height:15px;
 
-  border-radius: 20px;
+  border-radius:20px;
 
 }
+
+
+/* Bucket Cards */
+
 
 ion-card {
 
-  margin: 20px;
+  position:relative;
 
-  border-radius: 18px;
+  margin:25px;
 
-  overflow: hidden;
+  border-radius:25px;
 
-  box-shadow: 0 5px 15px rgba(0,0,0,.15);
+  overflow:hidden;
+
+  background:white;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
+/* Bucket list item titles */
+ion-card-title {
+  color: black;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* Bucket list descriptions */
+ion-card-content p {
+  color: #777;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+ion-card img {
+
+  height:230px;
+
+  width:100%;
+
+  object-fit:cover;
 
 }
 
-img {
-
-  width: 100%;
-
-  height: 220px;
-
-  object-fit: cover;
-
-}
 
 ion-card-title {
 
-  font-size: 24px;
+  font-size:24px;
 
-  font-weight: bold;
+  font-weight:800;
 
 }
 
-.status {
+
+/* Number circle */
+
+
+.number-circle {
+
+  position: absolute;
+
+  top: 15px;
+
+  left: 15px;
+
+  width: 45px;
+
+  height: 45px;
+
+  border-radius: 50%;
+
+  background-color: white;
+
+  color: black;
 
   display: flex;
 
   align-items: center;
 
-  gap: 10px;
+  justify-content: center;
 
-  margin-top: 18px;
-
-  font-size: 18px;
+  font-size: 22px;
 
   font-weight: bold;
 
+  z-index: 10;
+
 }
 
-.status ion-icon {
 
-  font-size: 28px;
+/* Status */
+
+
+.status {
+
+  margin-top:20px;
+
+  padding:10px 15px;
+
+  border-radius:20px;
+
+  display:inline-block;
+
+  font-weight:bold;
+
+}
+
+
+.completed {
+
+  background:#d8f8df;
+
+  color:#248a38;
+
+}
+
+
+.incomplete {
+
+  background:#ffe0e0;
+
+  color:#c62828;
 
 }
