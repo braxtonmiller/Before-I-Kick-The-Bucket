@@ -11,7 +11,7 @@ import { Auth } from '@angular/fire/auth';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  testProfileInfo: Profile = new Profile("Test Profile", "1234@gmail.com", "308-230-1234", "assets/profile-image-placeholder.avif")
+  testProfileInfo: Profile = new Profile("Test Profile", "1234@gmail.com", "308-230-1234", "assets/profile-image-placeholder.avif", [])
   // smokeyInfo: Profile = new Profile("Smokey", "kajdn", "Rottweiler", "assets/Rottweiler-Smokey.jpeg")
   // barkSimpsonInfo: Profile = new Profile("Bark Simpson", "kaadjoc", "Russell Terrier", "assets/Bark Simpson.png")
   // marcusInfo: Profile = new Profile("Marcus", "andjc", "Dachshund", "assets/")
