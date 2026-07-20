@@ -69,4 +69,8 @@ clearPasswords() {
   this.registerPasswordIn = '';
   this.registerPasswordConfIn = '';
 }
+
+goToCommunity() {
+  this.router.navigateByUrl('/community');
+}
 }
