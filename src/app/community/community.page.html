@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>Community</ion-title>
   </ion-toolbar>
@@ -51,6 +51,42 @@
       <p>{{ friend.profileEmail }}</p>
     </ion-label>
 
-  </ion-item>
+  </ion-item> -->
 
-</ion-content>
+
+
+
+   <ion-header>
+  <ion-toolbar>
+    <ion-title>Community</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-searchbar
+    [(ngModel)]="searchText"
+    (ionInput)="searchFriends()"
+    placeholder="Search users">
+  </ion-searchbar>
+
+  <ion-list lines="none">
+
+    @for (friend of filteredFriends; track friend.profileUsername) {
+
+      <ion-item
+        button
+        (click)="openProfile(friend)">
+
+        <ion-avatar slot="start">
+          <img [src]="friend.profileImageURL">
+        </ion-avatar>
+
+        <ion-label>
+          <h2>{{ friend.profileUsername }}</h2>
+          <p>{{ friend.profileEmail }}</p>
+        </ion-label>
+
+      </ion-item>
+
+    }
