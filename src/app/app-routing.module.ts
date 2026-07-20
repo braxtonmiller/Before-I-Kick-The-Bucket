@@ -4,7 +4,7 @@ import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angula
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
-const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['tabs/home']);
 
 const routes: Routes = [
   {
