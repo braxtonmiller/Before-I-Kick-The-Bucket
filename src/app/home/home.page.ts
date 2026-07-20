@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth';
+// import { Bucket, BucketItem } from '../services/bucket';
 
 @Component({
   selector: 'app-home',
