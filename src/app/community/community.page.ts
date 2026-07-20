@@ -65,8 +65,7 @@ export class CommunityPage {
   openProfile(friend: User) {
     console.log('Opening profile:', friend.profileUsername);
 
-    // Later:
-    // this.router.navigate(['/profile', friend.profileUsername]);
+
   }
 
 }
