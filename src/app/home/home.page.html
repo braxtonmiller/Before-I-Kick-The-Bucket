@@ -11,15 +11,19 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    Hello, (username)
+    Hello, username
   </ion-header>
-  <ion-card>
-    Progress
+  <ion-card class="bar">
+    <ion-card-title> Progress </ion-card-title>
+    <!-- graphic with completed number from bucket list page -->
   </ion-card>
-  <ion-card>
-    Next
+  <ion-card class="bar">
+    <ion-card-title> Next </ion-card-title>
+    <!-- incomplete items -->
+    <!-- sort by date -->
   </ion-card>
-  <ion-card>
-    Suggested
+  <ion-card class="bar">
+    <ion-card-title> Suggested </ion-card-title>
+    <!-- items from community -->
   </ion-card>
 </ion-content>
