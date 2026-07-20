@@ -13,11 +13,9 @@
 
   <div class="progress-card">
 
-    <h1> 1 / 2</h1> 
-    <!-- fill in with mustache? when ready -->
+    <h1>{{completedItems}} / {{totalItems}}</h1>
 
-    <p> x / y of your dreams completed</p>
-    <!-- also fill in mustache -->
+    <p>{{progress | number:'1.0-0'}}% of your dreams completed ✨</p>
 
     <ion-progress-bar
       [value]="progress / 100">
