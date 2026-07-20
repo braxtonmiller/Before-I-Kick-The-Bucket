@@ -19,16 +19,24 @@
   </div>
 </ion-content> -->
 
-<ion-content class="profilePic">
-  <ion-img [src]="profileIn.profileImageURL" alt="Profile Pic"></ion-img>
-</ion-content>
+<ion-content>
 
-<ion-content class="profileInfo">
-  <ion-title style="font-size: 30px; text-align: center;"> Username:<p style="font-size: 15px; text-align: center;">
+<div class="picture-container">
+  <ion-img [src]="profileIn.profileImageURL" alt="Profile Pic" class="profilePic"></ion-img>
+</div>
+
+<div class="profileInfo">
+  <ion-title style="font-size: 25px; text-align: center;"> Username:<p style="font-size: 15px; text-align: center;">
       {{profileIn.profileUsername}}</p>
   </ion-title>
-  <ion-title style="font-size: 30px; text-align: center;">Email:<p style="font-size: 15px; text-align: center;">
+  <ion-title style="font-size: 25px; text-align: center;">Email:<p style="font-size: 15px; text-align: center;">
       {{profileIn.profileEmail}}</p></ion-title>
-  <ion-title style="font-size: 30px; text-align: center;">Phone Number:<p style="font-size: 15px; text-align: center;">
+  <ion-title style="font-size: 25px; text-align: center;">Phone Number:<p style="font-size: 15px; text-align: center;">
       {{profileIn.profilePhoneNumber}}</p></ion-title>
-</ion-content>
+  </div>
+
+  <ion-button class="editProfileButton">
+    Edit Info
+  </ion-button>
+
+  </ion-content>
