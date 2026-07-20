@@ -1,11 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
-// import {
-//   Firestore,
-//   collection,
-//   collectionData
-// } from '@angular/fire/firestore';
-
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {
+  Firestore,
+  collection,
+  collectionData
+} from '@angular/fire/firestore';
 
 interface User {
   profileUsername: string;
@@ -13,39 +11,51 @@ interface User {
   profilePhoneNumber: string;
   profileImageURL: string;
 }
+
 @Component({
-  standalone: false,
   selector: 'app-community',
   templateUrl: './community.page.html',
   styleUrls: ['./community.page.scss'],
+  standalone: false,
 })
-export class CommunityPage {
-
-  trackByUsername(index: number, friend: User): string {
-    return friend.profileUsername;
-  }
+export class CommunityPage implements OnInit {
 
   searchText: string = '';
 
-  friends: User[] = [
-    {
-      profileUsername: 'finno',
-      profileEmail: 'finn@example.com',
-      profilePhoneNumber: '123-456-7890',
-      profileImageURL: 'https://ionicframework.com/docs/img/demos/avatar.svg'
-    },
-    {
-      profileUsername: 'jane23',
-      profileEmail: 'jane@example.com',
-      profilePhoneNumber: '987-654-3210',
-      profileImageURL: 'https://ionicframework.com/docs/img/demos/avatar.svg'
-    },
+  friends: User[] = [];
 
-  ];
+  filteredFriends: User[] = [];
 
-  filteredFriends: User[] = [...this.friends];
+  constructor(
+    private firestore: Firestore
+  ) {}
 
-  constructor() { }
+  ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+
+    const usersRef = collection(this.firestore, 'users');
+
+    collectionData(usersRef, { idField: 'id' })
+      .subscribe((users: any[]) => {
+
+        this.friends = users.map(user => ({
+          profileUsername: user.username || '',
+          profileEmail: user.email || '',
+          profilePhoneNumber: user.phoneNumber || '',
+          profileImageURL:
+            user.profilePicture && user.profilePicture !== ''
+              ? user.profilePicture
+              : 'https://ionicframework.com/docs/img/demos/avatar.svg'
+        }));
+
+        this.filteredFriends = [...this.friends];
+
+        console.log('Users loaded:', this.friends);
+      });
+  }
 
   searchFriends() {
 
@@ -63,9 +73,16 @@ export class CommunityPage {
   }
 
   openProfile(friend: User) {
+
     console.log('Opening profile:', friend.profileUsername);
 
+    // Future:
+    // this.router.navigate(['/profile', friend.profileUsername]);
 
+  }
+
+  trackByUsername(index: number, friend: User): string {
+    return friend.profileUsername;
   }
 
 }
