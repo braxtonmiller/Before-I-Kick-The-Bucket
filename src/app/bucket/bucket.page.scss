@@ -1,0 +1,189 @@
+ion-content {
+
+  --background: #fff7f2;
+
+}
+
+
+/* Header */
+
+ion-toolbar {
+
+  --background: #a63cdf;
+
+  --color: white;
+
+}
+
+
+/* Progress */
+
+.progress-card {
+
+  background:white;
+
+  margin:20px;
+
+  padding:25px;
+
+  border-radius:25px;
+
+  text-align:center;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+
+.progress-card h1 {
+
+  font-size:42px;
+
+  margin:0;
+
+  font-weight:800;
+
+}
+
+
+.progress-card p {
+
+  color:#000000;
+
+  font-size:16px;
+
+}
+
+
+ion-progress-bar {
+
+  height:15px;
+
+  border-radius:20px;
+
+}
+
+
+/* Bucket Cards */
+
+
+ion-card {
+
+  position:relative;
+
+  margin:25px;
+
+  border-radius:25px;
+
+  overflow:hidden;
+
+  background:white;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
+/* Bucket list item titles */
+ion-card-title {
+  color: black;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* Bucket list descriptions */
+ion-card-content p {
+  color: #777;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+ion-card img {
+
+  height:230px;
+
+  width:100%;
+
+  object-fit:cover;
+
+}
+
+
+ion-card-title {
+
+  font-size:24px;
+
+  font-weight:800;
+
+}
+
+
+/* Number circle */
+
+
+.number-circle {
+
+  position: absolute;
+
+  top: 15px;
+
+  left: 15px;
+
+  width: 45px;
+
+  height: 45px;
+
+  border-radius: 50%;
+
+  background-color: white;
+
+  color: black;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  z-index: 10;
+
+}
+
+
+/* Status */
+
+
+.status {
+
+  margin-top:20px;
+
+  padding:10px 15px;
+
+  border-radius:20px;
+
+  display:inline-block;
+
+  font-weight:bold;
+
+}
+
+
+.completed {
+
+  background:#d8f8df;
+
+  color:#248a38;
+
+}
+
+
+.incomplete {
+
+  background:#ffe0e0;
+
+  color:#c62828;
+
+}
