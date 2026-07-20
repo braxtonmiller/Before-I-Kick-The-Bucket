@@ -10,6 +10,7 @@ interface User {
   profileEmail: string;
   profilePhoneNumber: string;
   profileImageURL: string;
+    expanded?: boolean;
 }
 
 @Component({
@@ -84,5 +85,7 @@ export class CommunityPage implements OnInit {
   trackByUsername(index: number, friend: User): string {
     return friend.profileUsername;
   }
-
+toggleInfo(friend: User) {
+  friend.expanded = !friend.expanded;
+}
 }
