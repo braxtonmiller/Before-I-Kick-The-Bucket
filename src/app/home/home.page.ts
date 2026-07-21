@@ -18,6 +18,10 @@ export class HomePage implements OnInit {
 
   ngOnInit() { }
 
+  ionViewDidEnter(){
+    
+  }
+
   async signOut() {
     await this.authService.logout();
     this.router.navigateByUrl('login');

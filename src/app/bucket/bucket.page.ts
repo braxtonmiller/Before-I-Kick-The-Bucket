@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Bucket, BucketItem } from '../services/bucket';
+import { BucketService, BucketItem } from '../services/bucket-service';
 
 
 @Component({
@@ -15,7 +15,7 @@ userName = "Katie";
 bucketList: BucketItem[] = [];
 
 
-  constructor(private bucketService: Bucket) { }
+  constructor(private bucketService: BucketService) { }
 
   ngOnInit() {
   this.bucketList = this.bucketService.getItems();
