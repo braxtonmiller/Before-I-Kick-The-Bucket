@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CameraComponent } from '../components/camera/camera.component';
 
 @Component({
   selector: 'app-add-photos',
@@ -19,9 +21,26 @@ the page after the user is done adding to bucket lists*/
 
 export class AddPhotosPage implements OnInit {
 
-  constructor() { }
+  
+
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
+  }
+
+  addBucketListItem() {
+    console.log("need to add functionality to pull user's bucket list array and add to it");
+  }
+
+  async takePhoto() {
+    let modal = await this.modalController.create({
+      component:CameraComponent
+    })
+    await modal.present();
+  }
+
+  addPhoto() {
+    console.log("need to have access to a person's photos and also need to implement allow photos");
   }
 
 }
