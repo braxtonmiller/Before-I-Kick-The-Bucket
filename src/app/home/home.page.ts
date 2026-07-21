@@ -21,6 +21,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() { }
 
+  ionViewDidEnter(){
+    
+  }
 
   get goalsCompletedPercent(): number {
     return Math.round((this.goalsCompleted / this.goalsTotal) * 100);
