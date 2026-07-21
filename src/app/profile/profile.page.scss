@@ -1,5 +1,5 @@
 ion-content {
-    --background: linear-gradient(to top, #8d09c6, #afafaf);
+  --background: linear-gradient(to top, #8d09c6, #afafaf);
 }
 
 
@@ -9,37 +9,45 @@ ion-content {
   width: 13em;
   padding: 8px 16px;
   position: relative;
-  left: 47.3em;
-  top: 4.5em;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; 
+    height: auto;
+    top: 4em;
 }
 
 .profilePic {
-    // object-fit: cover;
-    height: 22em;
-    width: 22em;
-    position: relative;
-    left: 36.3em;
-    top: 1.5em;
-    border-radius: 50%;
-    overflow: hidden;
+  // object-fit: cover;
+  height: 22em;
+  width: 22em;
+  position: relative;
+  top: 1.5em;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; 
+    height: auto;
 }
 
 .profileInfo {
-    font-size: large;
-    position: relative;
-    top: 3em;
+  font-size: large;
+  position: relative;
+  top: 3em;
 }
 
 .addProfileCard {
   top: 2%;
   height: 30em;
-  width:20em;
-   display: flex;
+  width: 20em;
+  display: flex;
   flex-direction: column;
 }
 
 .addProfileButton {
-  position:relative;
+  position: relative;
   height: 2em;
   width: 15em;
   margin-top: 1.5em;
