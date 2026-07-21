@@ -15,37 +15,47 @@
   </ion-header>
 
   <ion-card class="progress-card">
-      <ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-card-title class="progress-title"> Progress </ion-card-title>
+      </ion-row>
+      <ion-row class="progress-row">
+        <div class="progress-ring-wrap">
+          <svg viewBox="0 0 96 96">
+            <circle class="ring-bg" cx="48" cy="48" r="40" stroke-width="12" fill="none" />
+            <circle class="ring-fill" cx="48" cy="48" r="40" stroke-width="12" fill="none" stroke-dasharray="251.2"
+              [attr.stroke-dashoffset]="251.2 - (251.2 * goalsCompletedPercent / 100)" />
+          </svg>
+          <div class="ring-label">{{ goalsCompletedPercent }}%</div>
+        </div>
+
+        <div class="progress-text">
+          <p class="count">{{ goalsCompleted }} of {{ goalsTotal }}</p>
+          <p class="label">Goals Completed</p>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card class="next-up">
+    <ion-grid>
         <ion-row>
-          <ion-card-title class="title"> Progress </ion-card-title>
+            <ion-card-title class="next-title"> Next Up </ion-card-title>
         </ion-row>
-        <ion-row class="row">
-          <div class="progress-ring-wrap">
-            <svg viewBox="0 0 96 96">
-              <circle class="ring-bg" cx="48" cy="48" r="40" stroke-width="12" fill="none" />
-              <circle class="ring-fill" cx="48" cy="48" r="40" stroke-width="12" fill="none" stroke-dasharray="251.2"
-                [attr.stroke-dashoffset]="251.2 - (251.2 * goalsCompletedPercent / 100)" />
-            </svg>
-            <div class="ring-label">{{ goalsCompletedPercent }}%</div>
-          </div>
-
-          <div class="progress-text">
-            <p class="count">{{ goalsCompleted }} of {{ goalsTotal }}</p>
-            <p class="label">Goals Completed</p>
-          </div>
-        </ion-row>
-      </ion-grid>
+      <ion-row class="next-row">
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
-  <ion-card class="bar">
-    <ion-card-title> Next </ion-card-title>
-    <!-- incomplete items -->
-    <!-- sort by date -->
-  </ion-card>
 
-  <ion-card class="bar">
-    <ion-card-title> Suggested </ion-card-title>
-    <!-- items from community -->
+  <ion-card class="suggested">
+    <ion-grid>
+      <ion-row>
+        <ion-card-title class="suggested-title"> Suggested </ion-card-title>
+      </ion-row>
+      <ion-row class="suggested-row">
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
 </ion-content>
