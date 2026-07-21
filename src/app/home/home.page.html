@@ -14,9 +14,27 @@
     Hello, username
   </ion-header>
 
-  <ion-card class="bar">
-    <ion-card-title> Progress </ion-card-title>
-    <!-- graphic with completed number from bucket list page card -->
+  <ion-card class="progress-card">
+      <ion-grid>
+        <ion-row>
+          <ion-card-title class="title"> Progress </ion-card-title>
+        </ion-row>
+        <ion-row class="row">
+          <div class="progress-ring-wrap">
+            <svg viewBox="0 0 96 96">
+              <circle class="ring-bg" cx="48" cy="48" r="40" stroke-width="12" fill="none" />
+              <circle class="ring-fill" cx="48" cy="48" r="40" stroke-width="12" fill="none" stroke-dasharray="251.2"
+                [attr.stroke-dashoffset]="251.2 - (251.2 * goalsCompletedPercent / 100)" />
+            </svg>
+            <div class="ring-label">{{ goalsCompletedPercent }}%</div>
+          </div>
+
+          <div class="progress-text">
+            <p class="count">{{ goalsCompleted }} of {{ goalsTotal }}</p>
+            <p class="label">Goals Completed</p>
+          </div>
+        </ion-row>
+      </ion-grid>
   </ion-card>
 
   <ion-card class="bar">
