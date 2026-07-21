@@ -1,9 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Profile</ion-title>
-    <ion-buttons slot="end" *ngIf="!isEditing">
-      <ion-button (click)="isEditing = true">Edit</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -56,14 +53,23 @@
     
     <!-- 1. DISPLAY VIEW (Shows when NOT editing) -->
     <div *ngIf="!isEditing">
-      <img [src]="profileImageURLInput || 'https://ionicframework.com/docs/img/demos/avatar.svg'" class="profile-pic">
-      <ion-card>
-        <ion-card-content>
-          <h2><b>Username:</b> {{ profileUsernameInput }}</h2>
-          <p><b>Email:</b> {{ profileEmailInput }}</p>
-          <p><b>Phone:</b> {{ profilePhoneNumberInput }}</p>
-        </ion-card-content>
-      </ion-card>
+      <div class="picture-container">
+  <ion-img [src]="profileImageURLInput" alt="Profile Pic" class="profilePic"></ion-img>
+</div>
+
+<div class="profileInfo">
+  <ion-title style="font-size: 25px; text-align: center; color: rgb(0, 0, 0);"> Username:<p style="font-size: 15px; text-align: center; color: white;">
+      {{profileUsernameInput}}</p>
+  </ion-title>
+  <ion-title style="font-size: 25px; text-align: center; color: black;">Email:<p style="font-size: 15px; text-align: center; color: white;">
+      {{profileEmailInput}}</p></ion-title>
+  <ion-title style="font-size: 25px; text-align: center; color: black;">Phone Number:<p style="font-size: 15px; text-align: center; color: white;">
+      {{profilePhoneNumberInput}}</p></ion-title>
+  </div>
+
+   <ion-buttons slot="end" *ngIf="!isEditing">
+      <ion-button class="editProfileButton" (click)="isEditing = true"> <img src="assets/Edit Icon.png" alt="edit-icon" style="width:20px; height:20px; vertical-align: middle; margin-right: 8px;"> Edit Profile</ion-button>
+    </ion-buttons>
     </div>
 
     <!-- 2. SETUP / EDIT FORM VIEW (Shows when editing) -->
