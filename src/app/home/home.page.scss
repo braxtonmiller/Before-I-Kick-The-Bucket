@@ -1,12 +1,10 @@
-.bar {
-    height: 150px;
-}
+//Progress Bar
 
-.title {
+.progress-title {
     padding: 15px;
 }
 
-.row {
+.progress-row {
     display: flex;
     align-items: center;
     padding: 0 20px;
@@ -87,4 +85,66 @@
         font-weight: 700;
         margin: 0;
     }
+}
+
+
+//Next Up
+
+.next-up {
+    height: 170px;
+    position: relative;
+    border-radius: 20px;
+    margin: 16px;
+    background: url('../../assets/kayak.jpg') center / cover no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15));
+    }
+}
+
+.next-title {
+    padding: 15px;
+}
+
+.next-row {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+
+
+
+//suggested
+
+.suggested {
+    height: 170px;
+    position: relative;
+    border-radius: 20px;
+    margin: 16px;
+    background: url('../../assets/balloon.jpg') center / cover no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15));
+    }
+}
+
+.suggested-title {
+    padding: 15px;
+}
+
+.suggested-row {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
 }
