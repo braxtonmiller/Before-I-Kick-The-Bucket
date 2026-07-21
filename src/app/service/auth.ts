@@ -3,7 +3,8 @@ import {
   Auth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut
+  signOut,
+  User
 } from '@angular/fire/auth';
 
 
@@ -16,6 +17,12 @@ export class AuthService {
 
   constructor(private auth: Auth) {
 
+  }
+
+  getCurrentUserUid(): string {
+    if (this.auth.currentUser != null)
+      {return this.auth.currentUser.uid;}
+    throw new Error ('No user logged in')
   }
 
   async register(email: string, password: string, passwordConf: string) {
