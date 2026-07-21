@@ -3,7 +3,7 @@
     <ion-row class="ion-align-content-center">
       <ion-col size="4"> </ion-col>
       <ion-col size="4">
-        <ion-button class="full-width">
+        <ion-button class="full-width" (click)="addBucketListItem()">
           Add a bucket list item
         </ion-button>
       </ion-col>
@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col size="2"></ion-col>
       <ion-col size="3">
-        <ion-button class="full-width">
+        <ion-button class="full-width" (click)="takePhoto()">
           Take a photo
         </ion-button>
       </ion-col>
@@ -22,7 +22,7 @@
         </ion-title>
       </ion-col>
       <ion-col size="3">
-        <ion-button class="full-width">
+        <ion-button class="full-width" (click)="addPhoto()">
           Add photo to bucket list item
         </ion-button>
       </ion-col>

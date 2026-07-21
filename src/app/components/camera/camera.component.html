@@ -1,0 +1,29 @@
+<header>
+  <button (click)="closeCamera()">
+    close
+  </button>
+</header>
+
+<button (click)="cameraButton()">
+  Open Camera
+<button>
+
+<div class="camera-container">
+  <!-- Live stream view -->
+  <video #video autoplay playsinline width="640" height="480"></video>
+  
+  <div class="controls">
+    <button (click)="capture()">Capture Photo</button>
+  </div>
+
+  <!-- Hidden canvas used for processing the picture frame -->
+  <canvas #canvas width="640" height="480" style="display: none;"></canvas>
+
+  @if (capturedImage) {
+  <!-- Gallery previewing captured images -->
+  <div class="preview">
+    <h3>Captured Image:</h3>
+    <img [src]="capturedImage" alt="Snapshot" />
+  </div>
+}
+</div>
