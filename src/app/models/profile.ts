@@ -1,3 +1,5 @@
+import { BucketListItem } from "./bucket-list-item";
+
 export class Profile {
 
     profileUsername: string

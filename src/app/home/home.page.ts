@@ -11,6 +11,9 @@ import { AuthService } from '../service/auth';
 })
 export class HomePage implements OnInit {
 
+  goalsCompleted = 16;
+  goalsTotal = 50;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -20,6 +23,10 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter(){
     
+  }
+
+  get goalsCompletedPercent(): number {
+    return Math.round((this.goalsCompleted / this.goalsTotal) * 100);
   }
 
   async signOut() {

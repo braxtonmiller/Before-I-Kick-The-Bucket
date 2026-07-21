@@ -33,7 +33,7 @@ export class BucketService {
       console.log(err)
     }
   }
-  get items(): Observable<BucketItem[]> {
+  getItems(): Observable<BucketItem[]> {
     //turn behaviorSubject into observale we can subscribe to
     return this._bucketItems.asObservable()
   }
@@ -58,3 +58,5 @@ export class BucketService {
   //   }
   // }
 }
+
+export { BucketItem };
