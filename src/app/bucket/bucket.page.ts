@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Bucket, BucketItem } from '../services/bucket';
+import { BucketService, BucketItem } from '../services/bucket-service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -10,56 +11,63 @@ import { Bucket, BucketItem } from '../services/bucket';
 })
 export class BucketPage implements OnInit {
 
-userName = "Katie";
+  userName = "Katie";
 
-bucketList: BucketItem[] = [];
+  bucketList: BucketItem[] = [];
 
+  bucketItemSubscription?: Subscription
 
-  constructor(private bucketService: Bucket) { }
+  constructor(private bucketService: BucketService) { }
 
   ngOnInit() {
-  this.bucketList = this.bucketService.getItems();
+    // this.bucketList = this.bucketService.getItems();
+    //this.bucketItemSubscription = this.bucketService.SOMETHING.subscribe
 
-  // Temporary sample data while your partner is still working
-  if (this.bucketList.length === 0) {
-    this.bucketService.addItem({
-      id: 1,
-      title: "Study Abroad in Spain",
-      description: "Spend spring semester in Spain.",
-      image: "assets/spain.jpg",
-      completed: false
+    this.bucketService.getItems().subscribe((bucketItems: BucketItem[]) => {
+      // bucketItems contains: id, title, description, image, completed
+      // Update your component with the latest bucket items
     });
 
-    this.bucketService.addItem({
-      id: 2,
-      title: "Go Skydiving",
-      description: "Schedule Jump Omaha in August.",
-      image: "assets/skydive.jpg",
-      completed: true
-    });
+    // Temporary sample data while your partner is still working
+    if (this.bucketList.length === 0) {
+      this.bucketService.saveBucketItem({
+        id: 1,
+        title: "Study Abroad in Spain",
+        description: "Spend spring semester in Spain.",
+        image: "assets/spain.jpg",
+        completed: false
+      });
 
-    this.bucketList = this.bucketService.getItems();
-  }
-}
+      this.bucketService.saveBucketItem({
+        id: 2,
+        title: "Go Skydiving",
+        description: "Schedule Jump Omaha in August.",
+        image: "assets/skydive.jpg",
+        completed: true
+      });
 
-get completedItems(): number {
-  return this.bucketList.filter(item => item.completed).length;
-}
-
-get totalItems(): number {
-  return this.bucketList.length;
-}
-
-get progress(): number {
-  if (this.totalItems === 0) {
-    return 0;
+      //this.bucketList = this.bucketService.getItems();
+    }
   }
 
-  return (this.completedItems / this.totalItems) * 100;
-}
+  get completedItems(): number {
+    return this.bucketList.filter(item => item.completed).length;
+  }
 
-toggle(id: number) {
-  this.bucketService.toggleComplete(id);
-}
+  get totalItems(): number {
+    return this.bucketList.length;
+  }
+
+  get progress(): number {
+    if (this.totalItems === 0) {
+      return 0;
+    }
+
+    return (this.completedItems / this.totalItems) * 100;
+  }
+
+  // toggle(id: number) {
+  //   this.bucketService.toggleComplete(id);
+  // }
 
 }
