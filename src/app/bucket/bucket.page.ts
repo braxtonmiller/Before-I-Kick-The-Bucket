@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BucketService, BucketItem } from '../services/bucket-service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,11 +15,18 @@ export class BucketPage implements OnInit {
 
   bucketList: BucketItem[] = [];
 
+  bucketItemSubscription?: Subscription
 
   constructor(private bucketService: BucketService) { }
 
   ngOnInit() {
-    this.bucketList = this.bucketService.getItems();
+    // this.bucketList = this.bucketService.getItems();
+    //this.bucketItemSubscription = this.bucketService.SOMETHING.subscribe
+
+    this.bucketService.getItems().subscribe((bucketItems: BucketItem[]) => {
+      // bucketItems contains: id, title, description, image, completed
+      // Update your component with the latest bucket items
+    });
 
     // Temporary sample data while your partner is still working
     if (this.bucketList.length === 0) {
@@ -38,7 +46,7 @@ export class BucketPage implements OnInit {
         completed: true
       });
 
-      this.bucketList = this.bucketService.getItems();
+      //this.bucketList = this.bucketService.getItems();
     }
   }
 
