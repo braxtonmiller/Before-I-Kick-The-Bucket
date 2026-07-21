@@ -2,13 +2,24 @@ ion-content {
     --background: linear-gradient(to top, #8d09c6, #afafaf);
 }
 
+
+.editProfileButton {
+  --background: rgb(255, 255, 255);
+  height: 2em;
+  width: 13em;
+  padding: 8px 16px;
+  position: relative;
+  left: 47.3em;
+  top: 4.5em;
+}
+
 .profilePic {
     // object-fit: cover;
     height: 22em;
     width: 22em;
-    // position: relative;
-    left: 36.5em;
-    top: 5em;
+    position: relative;
+    left: 36.3em;
+    top: 1.5em;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -16,7 +27,7 @@ ion-content {
 .profileInfo {
     font-size: large;
     position: relative;
-    top: 5em;
+    top: 3em;
 }
 
 .addProfileCard {
