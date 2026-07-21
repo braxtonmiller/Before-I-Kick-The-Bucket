@@ -1,10 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Profile</ion-title>
+    <ion-buttons slot="end" *ngIf="!isEditing">
+      <ion-button (click)="isEditing = true">Edit</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
 
   <div class="profile-container">
 
@@ -44,6 +47,52 @@
       Save Profile
     </ion-button>
 
-  </div>
+  </div> -->
 
+
+
+<ion-content>
+  <div class="profile-container">
+    
+    <!-- 1. DISPLAY VIEW (Shows when NOT editing) -->
+    <div *ngIf="!isEditing">
+      <img [src]="profileImageURLInput || 'https://ionicframework.com/docs/img/demos/avatar.svg'" class="profile-pic">
+      <ion-card>
+        <ion-card-content>
+          <h2><b>Username:</b> {{ profileUsernameInput }}</h2>
+          <p><b>Email:</b> {{ profileEmailInput }}</p>
+          <p><b>Phone:</b> {{ profilePhoneNumberInput }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- 2. SETUP / EDIT FORM VIEW (Shows when editing) -->
+    <div *ngIf="isEditing">
+      <img [src]="profileImageURLInput || 'https://ionicframework.com/docs/img/demos/avatar.svg'" class="profile-pic">
+      <ion-card>
+        <ion-card-content>
+          <ion-input label="Username" [(ngModel)]="profileUsernameInput"></ion-input>
+          <ion-input label="Email" [(ngModel)]="profileEmailInput"></ion-input>
+          <ion-input label="Phone Number" [(ngModel)]="profilePhoneNumberInput"></ion-input>
+          <ion-input label="Profile Picture URL" [(ngModel)]="profileImageURLInput"></ion-input>
+        </ion-card-content>
+      </ion-card>
+      
+      <ion-button expand="block" (click)="saveProfile()">
+        Save Profile
+      </ion-button>
+    </div>
+
+  </div>
 </ion-content>
+
+
+
+
+
+
+
+<!-- 
+  <app-profile-display [profileIn]="testProfileInfo"></app-profile-display>
+
+</ion-content> -->
