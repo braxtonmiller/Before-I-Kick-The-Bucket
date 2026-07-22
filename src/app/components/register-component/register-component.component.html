@@ -1,0 +1,22 @@
+<ion-content fullscreen="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Create Account
+      </ion-title>
+      <ion-button color="danger" shape="round" slot="end" (click)="dismissModal()">
+        X
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-card>
+      <ion-input type="email" [(ngModel)]="registerEmailIn" placeholder="Enter Email"></ion-input>
+      <ion-input type="password" [(ngModel)]="registerPasswordIn" placeholder="Enter Password"></ion-input>
+      <ion-input type="password" [(ngModel)]="registerPasswordConfIn" placeholder="Confirm Password"></ion-input>
+    </ion-card>
+    <ion-button (click)="register()" shape="round" expand="block" fill="solid">
+      Sign up
+    </ion-button>
+  </ion-grid>
+</ion-content>
