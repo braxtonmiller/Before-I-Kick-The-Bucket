@@ -2,6 +2,11 @@
 
 .progress-title {
     padding: 15px;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .progress-row {
@@ -90,16 +95,18 @@
 
 //Next Up
 
-.next-up {
-    height: 170px;
-    position: relative;
-    border-radius: 20px;
+.next-up-grid {
+    --ion-grid-padding: 0;
+    --ion-grid-column-padding: 0;
     margin: 16px;
-    background: url('../../assets/kayak.jpg') center / cover no-repeat;
-    background-position: center;
-    background-repeat: no-repeat;
+}
 
-    &::before {
+.next-up-image {
+    height: 200px;
+    border-radius: 24px;
+    background: url('../../assets/kayak.jpg') center / cover no-repeat;
+
+     &::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -107,26 +114,50 @@
     }
 }
 
-.next-title {
-    padding: 15px;
+.next-up-label {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    color: #000000;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-.next-row {
+.next-text {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 0 20px;
+    text-align: center;
+    padding: 0 16px;
 }
 
-.next-up-info {
-    height: 170px;
-    position: relative;
-    border-radius: 20px;
-    margin: 16px;
-    background: white
+.next-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1C1B29;
+    margin: 0 0 8px;
+    line-height: 1.2;
 }
 
-.button {
-    color:#7C4DFF
+.next-date {
+    font-size: 16px;
+    color: #6B6B76;
+    margin: 0 0 14px;
+}
+
+.details-btn {
+    --background: #D9B8F5;
+    --color: #1C1B29;
+    --border-radius: 999px;
+    --box-shadow: none;
+    
+    border-radius: 999px; // fixes the shadow shape on the host element
+    box-shadow: none; // belt-and-suspenders in case the host also draws one
+    font-weight: 800;
+    text-transform: none;
+    margin: 0;
 }
 
 
@@ -151,6 +182,11 @@
 
 .suggested-title {
     padding: 15px;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    color: black;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .suggested-row {
