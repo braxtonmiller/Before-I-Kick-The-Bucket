@@ -37,42 +37,36 @@
     </ion-grid>
   </ion-card>
 
-  <ion-grid>
-    <ion-row>
+  <ion-grid class="next-up-grid">
+    <ion-row class="ion-align-items-center">
       <ion-col size="6">
-        <ion-card class="next-up">
-          <ion-grid>
-            <ion-row>
-              <ion-card-title class="next-title"> Next Up </ion-card-title>
-            </ion-row>
-            <ion-row class="next-row">
-            </ion-row>
-          </ion-grid>
-        </ion-card>
+        <div class="next-up-image" role="img" aria-label="Kayaking with friends">
+          <span class="next-up-label">Next Up</span>
+        </div>
       </ion-col>
-      <ion-col size="6">
-        <ion-card class="next-up-info">
-          <ion-card-title class="next-title">
-            Kayaking with friends
-            July 20th, 10am
-          </ion-card-title>
-          <ion-button class="button">
-            View Details
-          </ion-button>
-        </ion-card>
+
+      <ion-col size="6" class="next-text">
+        <h3 class="next-title">Kayaking with Friends</h3>
+        <p class="next-date">July 18: 10:00 am</p>
+        <ion-button class="details-btn" fill="solid" (click)="showEventDetails()">
+          View Details
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
 
 
-  <ion-card class="suggested">
-    <ion-grid>
-      <ion-row>
-        <ion-card-title class="suggested-title"> Suggested </ion-card-title>
-      </ion-row>
-      <ion-row class="suggested-row">
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+<h2 class="section-title">Suggested For You</h2>
+
+<div class="suggested-row">
+  <div
+    class="suggested-card"
+    *ngFor="let event of suggestedEvents"
+    (click)="showSuggestedDetails(event)"
+  >
+    <div class="suggested-image" [style.background-image]="'url(' + event.image + ')'"></div>
+  </div>
+</div>
+
 
 </ion-content>

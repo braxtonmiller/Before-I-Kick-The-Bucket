@@ -2,6 +2,11 @@
 
 .progress-title {
     padding: 15px;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    color: rgb(255, 254, 254);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .progress-row {
@@ -50,7 +55,7 @@
 }
 
 .ring-bg {
-    stroke: #E7D9FB;
+    stroke: #D9B8F5;
 }
 
 .ring-fill {
@@ -90,71 +95,96 @@
 
 //Next Up
 
-.next-up {
-    height: 170px;
-    position: relative;
-    border-radius: 20px;
+.next-up-grid {
+    --ion-grid-padding: 0;
+    --ion-grid-column-padding: 0;
     margin: 16px;
-    background: url('../../assets/kayak.jpg') center / cover no-repeat;
-    background-position: center;
-    background-repeat: no-repeat;
+}
 
-    &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15));
-    }
+.next-up-image {
+    height: 200px;
+    border-radius: 24px;
+    background: url('../../assets/kayak.jpg') center / cover no-repeat;
+
+}
+
+.next-up-label {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 1;
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 3px 4px rgba(0, 0, 0, 0.9);
+}
+
+.next-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 16px;
 }
 
 .next-title {
-    padding: 15px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1C1B29;
+    margin: 0 0 8px;
+    line-height: 1.2;
 }
 
-.next-row {
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
+.next-date {
+    font-size: 16px;
+    color: #6B6B76;
+    margin: 0 0 14px;
 }
 
-.next-up-info {
-    height: 170px;
-    position: relative;
-    border-radius: 20px;
-    margin: 16px;
-    background: white
-}
+.details-btn {
+    --background: #D9B8F5;
+    --color: #1C1B29;
+    --border-radius: 999px;
+    --box-shadow: none;
 
-.button {
-    color:#7C4DFF
+    border-radius: 999px; // fixes the shadow shape on the host element
+    box-shadow: none; // belt-and-suspenders in case the host also draws one
+    font-weight: 800;
+    text-transform: none;
+    margin: 0;
 }
 
 
 //suggested
 
-.suggested {
-    height: 170px;
-    position: relative;
-    border-radius: 20px;
-    margin: 16px;
-    background: url('../../assets/balloon.jpg') center / cover no-repeat;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.15));
-    }
-}
-
-.suggested-title {
-    padding: 15px;
+.section-title {
+      margin: 0 16px 16px;
 }
 
 .suggested-row {
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0 16px 16px;
+  scroll-snap-type: x proximity;
+
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.suggested-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+
+.suggested-image {
+  width: 130px;
+  height: 170px;        // matches your progress-card height for visual consistency
+  border-radius: 20px;  // matches your other cards' border-radius
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
