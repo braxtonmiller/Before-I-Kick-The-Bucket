@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth';
 import { Router } from '@angular/router';
+import { RegisterComponent, } from '../components/register-component/register-component.component';
+import { AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -41,36 +44,27 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async register() {
-    try {
-  let result = await this.authService.register(this.registerEmailIn, this.registerPasswordIn, this.registerPasswordConfIn);
-  
-    if (result != null) {
-      this.router.navigateByUrl('home');
-    }
-    else {
-      window.alert('Account Creation Failed');
-      this.clearPasswords();
-    }
-    }
-    catch (e: any) {
-      window.alert(e.message);
-    }
+
+  clearFields() {
+    this.emailIn = '';
+    this.registerEmailIn = '';
+    this.clearPasswords();
   }
 
-clearFields() {
-  this.emailIn = '';
-  this.registerEmailIn = '';
-  this.clearPasswords();
-}
+  clearPasswords() {
+    this.passwordIn = '';
+    this.registerPasswordIn = '';
+    this.registerPasswordConfIn = '';
+  }
 
-clearPasswords() {
-  this.passwordIn = '';
-  this.registerPasswordIn = '';
-  this.registerPasswordConfIn = '';
-}
+  async presentRegister() {
 
-goToCommunity() {
-  this.router.navigateByUrl('/community');
-}
+    let modal = await this.modalController.create({
+      component: RegisterComponent,
+    });
+
+    await modal.present();
+
+  }
+
 }

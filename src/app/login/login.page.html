@@ -6,30 +6,29 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
-      <ion-card>
+    <ion-row class="ion-justify-content-center">
+      <ion-card class="card1">
+        <ion-card-title class="ion-text-center">
+          Sign In
+        </ion-card-title>
         <ion-input type="email" [(ngModel)]="emailIn" placeholder="Email"></ion-input>
         <ion-input type="password" [(ngModel)]="passwordIn" placeholder="Password"></ion-input>
+        <ion-button (click)="login()"  shape="round" expand="block" fill="solid">
+          Sign in
+        </ion-button>
       </ion-card>
-    <ion-button (click)="login()">
-      Sign in
-    </ion-button>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-card class="card2">
+        <ion-card-title>
+          Don't have an account?
+        </ion-card-title>
+        <br>
+          <ion-button (click)="presentRegister()" shape="round" expand="block" fill="solid">
+            Sign up
+          </ion-button>
+      </ion-card>
+    </ion-row>
   </ion-grid>
-
-  <ion-grid>
-    <ion-card>
-      <ion-input type="email" [(ngModel)]="registerEmailIn" placeholder="Enter Email"></ion-input>
-      <ion-input type="password" [(ngModel)]="registerPasswordIn" placeholder="Enter Password"></ion-input>
-      <ion-input type="password" [(ngModel)]="registerPasswordConfIn" placeholder="Confirm Password"></ion-input>
-    </ion-card>
-    <ion-button (click)="register()">
-      Sign up
-    </ion-button>
-  </ion-grid>
-
-
-<ion-button (click)="goToCommunity()">
-  Go to Community
-</ion-button>
-
 
 </ion-content>
