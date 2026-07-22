@@ -1,11 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      {{userName}}'s Bucket List 🌎
+      Your Bucket List 🪣
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-button expand="block" (click)="addCompletedItem()">
+  Add Completed Goal ✅
+</ion-button>
+
+<ion-button expand="block" (click)="addIncompleteItem()">
+  Add Incomplete Goal ⭕
+</ion-button>
 
 <ion-content>
 
@@ -70,6 +77,14 @@
 
       </div>
 
+      <ion-button
+  color="danger"
+  expand="block"
+  (click)="deleteItem(item.id)">
+
+  🗑 Remove Goal
+
+</ion-button>
 
     </ion-card-content>
 

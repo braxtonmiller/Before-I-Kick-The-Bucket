@@ -13,6 +13,8 @@ export class BucketPage implements OnInit {
 
   userName = "Katie";
 
+  nextId: number = 100;
+
   bucketList: BucketItem[] = [];
 
   bucketItemSubscription?: Subscription
@@ -23,10 +25,12 @@ export class BucketPage implements OnInit {
     // this.bucketList = this.bucketService.getItems();
     //this.bucketItemSubscription = this.bucketService.SOMETHING.subscribe
 
-    this.bucketService.getItems().subscribe((bucketItems: BucketItem[]) => {
+  this.bucketService.getItems().subscribe((bucketItems: BucketItem[]) => {
+  this.bucketList = bucketItems;
+});
       // bucketItems contains: id, title, description, image, completed
       // Update your component with the latest bucket items
-    });
+    ;
 
     // Temporary sample data while your partner is still working
     if (this.bucketList.length === 0) {
@@ -66,8 +70,42 @@ export class BucketPage implements OnInit {
     return (this.completedItems / this.totalItems) * 100;
   }
 
+  deleteItem(id: number) {
+
+  this.bucketList = this.bucketList.filter(
+    item => item.id !== id
+  );
+
+}
+
+
+  //test functions
+addCompletedItem() {
+
+  this.bucketList.push({
+    id: this.nextId++,
+    title: "Test Goal",
+    description: "Testing progress bar",
+    image: "https://ionicframework.com/docs/img/demos/card-media.png",
+    completed: true
+  });
+
+}
+addIncompleteItem() {
+
+  this.bucketList.push({
+    id: this.nextId++,
+    title: "Test Goal",
+    description: "Testing progress bar",
+    image: "https://ionicframework.com/docs/img/demos/card-media.png",
+    completed: false
+  });
+
+}
+}
+
   // toggle(id: number) {
   //   this.bucketService.toggleComplete(id);
   // }
 
-}
+
