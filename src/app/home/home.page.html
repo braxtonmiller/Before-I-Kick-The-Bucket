@@ -56,14 +56,17 @@
   </ion-grid>
 
 
-  <ion-card class="suggested">
-    <ion-grid>
-      <ion-row>
-        <ion-card-title class="suggested-title"> Suggested </ion-card-title>
-      </ion-row>
-      <ion-row class="suggested-row">
-      </ion-row>
-    </ion-grid>
-  </ion-card>
+<h2 class="section-title">Suggested For You</h2>
+
+<div class="suggested-row">
+  <div
+    class="suggested-card"
+    *ngFor="let event of suggestedEvents"
+    (click)="showSuggestedDetails(event)"
+  >
+    <div class="suggested-image" [style.background-image]="'url(' + event.image + ')'"></div>
+  </div>
+</div>
+
 
 </ion-content>
