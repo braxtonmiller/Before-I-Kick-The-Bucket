@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Firebase } from '../service/firebase';
+import { AuthService } from '../service/auth';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { BucketItem } from '../models/BucketItem';
 
@@ -11,12 +12,16 @@ export class BucketService {
 
   private _bucketItems: BehaviorSubject<BucketItem[]> = new BehaviorSubject([] as
     BucketItem[])
+  private _userBucketItems: BehaviorSubject<BucketItem[]> = new BehaviorSubject([] as
+    BucketItem[])
   private firebaseObservable?: Subscription
 
   constructor(
     private firebaseService: Firebase,
+    private authService: AuthService,
   ) {
     this.getData()
+    this.getUserData()
   }
 
   getData() {
@@ -33,12 +38,32 @@ export class BucketService {
       console.log(err)
     }
   }
+
+  getUserData() {
+    try {
+      let uid = this.authService.getCurrentUserUid()
+      this.firebaseService.readCollectionByUid("bucketItems", uid).subscribe(
+        (res: any[]) => {
+          let bucketItems = res.map((bucketItem: any) => new BucketItem(bucketItem.id, bucketItem.title, bucketItem.description, bucketItem.image, bucketItem.completed, bucketItem.uid))
+          this._userBucketItems.next(bucketItems)
+        },
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   getItems(): Observable<BucketItem[]> {
     //turn behaviorSubject into observale we can subscribe to
     return this._bucketItems.asObservable()
   }
-  async saveBucketItem(bucket: BucketItem) {
 
+  getUserItems(): Observable<BucketItem[]> {
+    return this._userBucketItems.asObservable()
+  }
+
+  async saveBucketItem(bucket: BucketItem) {
+    bucket.uid = this.authService.getCurrentUserUid()
     await this.firebaseService.createDoc(bucket, `bucketItems`)
   }
 
