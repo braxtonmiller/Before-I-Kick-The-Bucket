@@ -70,13 +70,6 @@ export class BucketPage implements OnInit {
     return (this.completedItems / this.totalItems) * 100;
   }
 
-  deleteItem(id: number) {
-
-  this.bucketList = this.bucketList.filter(
-    item => item.id !== id
-  );
-
-}
 
 
   //test functions
@@ -91,16 +84,21 @@ addCompletedItem() {
   });
 
 }
+
 addIncompleteItem() {
 
   this.bucketList.push({
     id: this.nextId++,
-    title: "Test Goal",
-    description: "Testing progress bar",
+    title: "New Goal",
+    description: "This goal has not been completed yet.",
     image: "https://ionicframework.com/docs/img/demos/card-media.png",
     completed: false
   });
 
+}
+
+deleteItem(id: number) {
+  this.bucketList = this.bucketList.filter(item => item.id !== id);
 }
 }
 
