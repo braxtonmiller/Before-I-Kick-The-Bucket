@@ -1,6 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CameraComponent } from '../components/camera/camera.component';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+import { BucketListItem } from '../models/bucket-list-item';
+import { Profile } from '../models/profile';
+import { UserProfileService } from '../services/user-profile';
 
 @Component({
   selector: 'app-add-photos',
@@ -21,11 +26,17 @@ the page after the user is done adding to bucket lists*/
 
 export class AddPhotosPage implements OnInit {
 
-  
+  currentProfile?: Profile;
+  bucketItemArray: BucketListItem[] = [];
+  selectedUsers = [];
 
-  constructor(private modalController: ModalController) { }
+  constructor(private auth: Auth, private firestore: Firestore, private modalController: ModalController, private userProfileService: UserProfileService) {
+    this.currentProfile = this.userProfileService.currentProfile;
+    this.bucketItemArray = this.currentProfile.profileBucketListItems;
+   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
   }
 
   addBucketListItem() {

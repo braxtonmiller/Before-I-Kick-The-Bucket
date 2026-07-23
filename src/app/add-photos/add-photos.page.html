@@ -3,9 +3,12 @@
     <ion-row class="ion-align-content-center">
       <ion-col size="4"> </ion-col>
       <ion-col size="4">
-        <ion-button class="full-width" (click)="addBucketListItem()">
-          Add a bucket list item
-        </ion-button>
+        <!-- <ion-label>Select Users</ion-label>
+        <ion-select multiple="true" [(ngModel)]="selectedUsers">
+          <ion-select-option *ngFor="let bucketItems of bucketListArray" [value]="bucketItems">
+            {{ user.name }}
+          </ion-select-option>
+        </ion-select> -->
       </ion-col>
       <ion-col size="4"> </ion-col>
     </ion-row>

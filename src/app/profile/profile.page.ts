@@ -3,6 +3,8 @@ import { Profile } from '../models/profile';
 
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { BucketListItem } from '../models/bucket-list-item';
+import { UserProfileService } from '../services/user-profile';
 
 @Component({
   selector: 'app-profile',
@@ -23,11 +25,17 @@ export class ProfilePage implements OnInit {
   profileEmailInput: string = "";
   profilePhoneNumberInput: string = "";
   profileImageURLInput: string = "";
+  profileBucketList: BucketListItem[] = []
+
+  currentProfile?: Profile 
 
   constructor(
     private firestore: Firestore,
     private auth: Auth,
-  ) { }
+    private userProfileService: UserProfileService
+  ) {
+    this.currentProfile = this.userProfileService.currentProfile;
+  }
 
 
   async ngOnInit() {
@@ -36,16 +44,16 @@ export class ProfilePage implements OnInit {
     if (user) {
       const docRef = doc(this.firestore, "users", user.uid);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         const data = docSnap.data();
         this.profileUsernameInput = data['username'] || "";
         this.profileEmailInput = data['email'] || "";
         this.profilePhoneNumberInput = data['phoneNumber'] || "";
         this.profileImageURLInput = data['profilePicture'] || "";
-        
+
         // If they already have a profile set up, show the display screen instead of the form
-        this.isEditing = false; 
+        this.isEditing = false;
       }
     }
   }
@@ -61,15 +69,16 @@ export class ProfilePage implements OnInit {
       username: this.profileUsernameInput,
       email: this.profileEmailInput,
       phoneNumber: this.profilePhoneNumberInput,
-      profilePicture: this.profileImageURLInput
+      profilePicture: this.profileImageURLInput,
+      bucketList: this.profileBucketList
     };
 
     try {
       await setDoc(doc(this.firestore, "users", user.uid), profileData);
       alert("Profile Saved!");
-      
+
       // SWITCH VIEW: Automatically hides the input boxes and shows the display fields
-      this.isEditing = false; 
+      this.isEditing = false;
     } catch (error) {
       alert("Error saving profile: " + error);
     }
