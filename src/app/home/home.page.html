@@ -46,9 +46,12 @@
       </ion-col>
 
       <ion-col size="6" class="next-text">
-        <h3 class="next-title">Kayaking with Friends</h3>
-        <p class="next-date">July 18: 10:00 am</p>
-        <ion-button class="details-btn" fill="solid" (click)="showEventDetails()">
+        <ng-container *ngIf="nextEvent">
+          <h3 class="next-title">{{ nextEvent.title }}</h3>
+        </ng-container>
+        <p *ngIf="!nextEvent">Add an item to your bucket list to see it here.</p>
+
+        <ion-button *ngIf="nextEvent" class="details-btn" fill="solid" (click)="showEventDetails()">
           View Details
         </ion-button>
       </ion-col>
@@ -56,17 +59,13 @@
   </ion-grid>
 
 
-<h2 class="section-title">Suggested For You</h2>
+  <h2 class="section-title">Suggested For You</h2>
 
-<div class="suggested-row">
-  <div
-    class="suggested-card"
-    *ngFor="let event of suggestedEvents"
-    (click)="showSuggestedDetails(event)"
-  >
-    <div class="suggested-image" [style.background-image]="'url(' + event.image + ')'"></div>
+  <div class="suggested-row">
+    <div class="suggested-card" *ngFor="let event of suggestedEvents" (click)="showSuggestedDetails(event)">
+      <div class="suggested-image" [style.background-image]="'url(' + event.image + ')'"></div>
+    </div>
   </div>
-</div>
 
 
 </ion-content>
