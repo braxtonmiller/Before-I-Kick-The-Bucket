@@ -8,28 +8,27 @@ import { Observable, combineLatest, map, from } from 'rxjs';
 export class FriendService {
   private firestore: Firestore = inject(Firestore);
 
-  // 1. Get all registered accounts for Explore
-  getExploreUsers(): Observable<any[]> {
+  // 1. Fetch explore users, excluding the current logged-in user from the directory view
+  getExploreUsers(currentUserUsername: string): Observable<any[]> {
     const usersCollection = collection(this.firestore, 'users');
-    return collectionData(usersCollection, { idField: 'id' }) as Observable<any[]>;
+    // Using a Firestore query constraint protects visibility on the database level
+    const exploreQuery = query(usersCollection, where('username', '!=', currentUserUsername));
+    return collectionData(exploreQuery, { idField: 'id' }) as Observable<any[]>;
   }
 
-  getFriendsList(currentUser: string): Observable<any[]> {
+  // 2. Fetch live requests matching the current user's username exclusively
+  getFriendsList(currentUserUsername: string): Observable<any[]> {
     const friendshipsRef = collection(this.firestore, 'friendships');
+    
+    // Strict match boundaries ensure privacy and isolation across accounts
+    const querySent = query(friendshipsRef, where('senderUsername', '==', currentUserUsername));
+    const queryReceived = query(friendshipsRef, where('receiverUsername', '==', currentUserUsername));
 
-    const querySent = query(friendshipsRef, where('senderUsername', '==', currentUser));
-    const queryReceived = query(friendshipsRef, where('receiverUsername', '==', currentUser));
-
-    // FIX: Using combineLatest lets real-time Firestore streams pass through immediately
     return combineLatest([
       collectionData(querySent, { idField: 'docId' }),
       collectionData(queryReceived, { idField: 'docId' })
     ]).pipe(
-      map(([sent, received]) => {
-        const unified = [...sent, ...received];
-        console.log('Live Firestore friendships combined stream:', unified);
-        return unified;
-      })
+      map(([sent, received]) => [...sent, ...received])
     );
   }
 

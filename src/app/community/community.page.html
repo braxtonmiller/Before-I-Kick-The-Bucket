@@ -94,9 +94,26 @@
             <h2>{{ friend.profileUsername }}</h2>
             <p>{{ friend.profileEmail }}</p>
           </ion-label>
-          <ion-button slot="end" color="primary" fill="solid" (click)="sendRequest(friend)">
-            <ion-icon name="person-add-outline" slot="start"></ion-icon> Add
-          </ion-button>
+          <div slot="end">
+
+            <!-- 1. Active Add button -->
+            <ion-button *ngIf="friend.relationStatus === 'none'" color="primary" fill="solid"
+              (click)="sendRequest(friend)">
+              <ion-icon name="person-add-outline" slot="start"></ion-icon> Add
+            </ion-button>
+
+            <!-- 2. REPLACED WITH AN ACTIVE UNADD ACTION BUTTON -->
+            <ion-button *ngIf="friend.relationStatus === 'pending'" color="danger" fill="outline"
+              (click)="unaddRequest(friend)">
+              <ion-icon name="close-circle-outline" slot="start"></ion-icon> Unadd
+            </ion-button>
+
+            <!-- 3. Active Friends badge -->
+            <ion-button *ngIf="friend.relationStatus === 'accepted'" color="success" fill="clear" disabled="true">
+              <ion-icon name="people-outline" slot="start"></ion-icon> Friends
+            </ion-button>
+
+          </div>
           <ion-button slot="end" fill="outline" (click)="toggleInfo(friend)"
             style="background-color: #7e0e9a; color: white;">
             → {{ friend.expanded ? 'Hide Info' : 'View Info' }}

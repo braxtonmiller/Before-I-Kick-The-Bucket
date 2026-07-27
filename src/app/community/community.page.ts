@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { FriendService } from '../services/friend';
 import { ToastController, AlertController } from '@ionic/angular';
+import { Auth, user } from '@angular/fire/auth';
+import { Subscription } from 'rxjs';
 
 interface User {
   profileUsername: string;
@@ -9,6 +11,7 @@ interface User {
   profilePhoneNumber: string;
   profileImageURL: string;
   expanded?: boolean;
+  relationStatus?: string;
 }
 
 @Component({
@@ -20,9 +23,9 @@ interface User {
 export class CommunityPage implements OnInit {
   currentTab: string = 'feed';
 
-  // FIX: Identify your active test profile username account here 
-  // (Change this string value to test receiving a request as another registered user!)
-  myCurrentUsername: string = 'BMill07';
+  // 2. THIS VARIABLE IS NOW POPULATED DYNAMICALLY BY FIREBASE SESSIONS
+  myCurrentUsername: string = '';
+  private authSubscription!: Subscription;
 
   posts: any[] = [
     { text: 'Welcome to the community feed!' },
@@ -40,12 +43,59 @@ export class CommunityPage implements OnInit {
     private firestore: Firestore,
     private friendService: FriendService,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private auth: Auth
   ) { }
 
   ngOnInit() {
     this.loadCommunityFeed();
+
+    // 1. Listen for the authenticated user session stream on page load
+    this.authSubscription = user(this.auth).subscribe((currentUser) => {
+      if (currentUser && currentUser.email) {
+        const authEmail = currentUser.email;
+        console.log('Active authentication session email detected:', authEmail);
+
+        // 2. Query your 'users' collection to pull the profile document that matches this email
+        const usersRef = collection(this.firestore, 'users');
+        collectionData(usersRef, { idField: 'id' }).subscribe((allUsers: any[]) => {
+
+          // Find the profile record where the email property matches the auth login session email
+          const myProfile = allUsers.find(u =>
+            (u.email && u.email.toLowerCase() === authEmail.toLowerCase()) ||
+            (u.profileEmail && u.profileEmail.toLowerCase() === authEmail.toLowerCase())
+          );
+
+          if (myProfile) {
+            // 3. FIX: Assign your core string variable to their real, unique username field!
+            this.myCurrentUsername = myProfile.username || myProfile.profileUsername || myProfile.id;
+            console.log('Linked auth email to database user profile name:', this.myCurrentUsername);
+
+            // 4. Safely initialize your tab views now that your user context identity string is loaded
+            if (this.currentTab === 'friends') {
+              this.loadFriendsData();
+            } else if (this.currentTab === 'explore') {
+              this.loadExploreUsers();
+            }
+          } else {
+            console.warn('Authentication email exists, but no matching profile row was found inside the users collection.');
+            // Fallback to the email string prefix nickname if profile document is completely missing
+            this.myCurrentUsername = authEmail.split('@')[0];
+          }
+        });
+      } else {
+        console.warn('No active login session detected on this browser instance.');
+      }
+    });
   }
+
+  // Clean up memory subscription pipelines when navigating out of the community tabs view
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
 
   searchFriends() {
     if (!this.searchText || this.searchText.trim() === '') {
@@ -64,6 +114,9 @@ export class CommunityPage implements OnInit {
   }
 
   tabChanged(event: any) {
+    // Prevent unauthenticated calls if user session hasn't loaded yet
+    if (!this.myCurrentUsername) return;
+
     if (this.currentTab === 'friends') {
       this.loadFriendsData();
     } else if (this.currentTab === 'explore') {
@@ -72,20 +125,42 @@ export class CommunityPage implements OnInit {
   }
 
   loadExploreUsers() {
-    this.friendService.getExploreUsers().subscribe({
-      next: (databaseUsers) => {
-        // Exclude the current logged-in profile from showing up on their own explore tab
-        const filteredDbUsers = databaseUsers.filter(u => u.username !== this.myCurrentUsername);
+    if (!this.myCurrentUsername) return;
 
-        const formatted = filteredDbUsers.map(user => ({
-          profileUsername: user.username || user.profileUsername || 'Unknown User',
-          profileEmail: user.email || user.profileEmail || '',
-          profilePhoneNumber: user.phoneNumber || user.phone || user.profilePhoneNumber || '',
-          profileImageURL: user.profilePicture || user.profileImageURL || user.photoURL || user.avatar || user.image || 'assets/profile-image-placeholder.avif',
-          expanded: false
-        }));
-        this.allExploreUsersMasterList = formatted;
-        this.filteredFriends = formatted;
+    this.friendService.getExploreUsers(this.myCurrentUsername).subscribe({
+      next: (databaseUsers) => {
+        this.friendService.getFriendsList(this.myCurrentUsername).subscribe({
+          next: (relationships: any[]) => {
+
+            // Map over ALL database profiles (excluding yourself)
+            const filteredDbUsers = databaseUsers.filter(u => {
+              const username = u.username || u.profileUsername || u.id;
+              return username !== this.myCurrentUsername;
+            });
+
+            const formatted = filteredDbUsers.map(user => {
+              const targetUsername = user.username || user.profileUsername || user.id;
+
+              // Find if any relationship entry matches this specific user
+              const matchedRel = relationships.find(rel =>
+                rel.senderUsername === targetUsername || rel.receiverUsername === targetUsername
+              );
+
+              return {
+                profileUsername: targetUsername,
+                profileEmail: user.email || user.profileEmail || '',
+                profilePhoneNumber: user.phoneNumber || user.phone || user.profilePhoneNumber || '',
+                profileImageURL: user.profilePicture || user.profileImageURL || user.photoURL || user.avatar || user.image || 'assets/profile-image-placeholder.avif',
+                expanded: false,
+                // Assign relationStatus based on Firestore records
+                relationStatus: matchedRel ? matchedRel.status : 'none'
+              };
+            });
+
+            this.allExploreUsersMasterList = formatted;
+            this.filteredFriends = formatted;
+          }
+        });
       },
       error: (err) => console.error('Could not load explore users', err)
     });
@@ -229,4 +304,28 @@ export class CommunityPage implements OnInit {
       error: (err: any) => console.error('Failed to send friend request', err)
     });
   }
+
+  // Triggered when a user clicks the "Unadd" button to retract a pending request
+  unaddRequest(user: any) {
+    this.friendService.removeFriend(this.myCurrentUsername, user.profileUsername).subscribe({
+      next: async () => {
+        // Display a clean native toast confirmation banner
+        const toast = await this.toastController.create({
+          message: `Retracted friend request sent to ${user.profileUsername}.`,
+          duration: 2000,
+          position: 'bottom',
+          color: 'warning'
+        });
+        await toast.present();
+
+        // Instantly reload your live explore profiles to toggle button back to 'none' (Add)
+        this.loadExploreUsers();
+      },
+      error: (err: any) => console.error('Failed to retract friend request from database', err)
+    });
+  }
+
+
+
+
 }

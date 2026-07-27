@@ -8,6 +8,8 @@ import { CommunityPageRoutingModule } from './community-routing.module';
 
 import { CommunityPage } from './community.page';
 
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +18,10 @@ import { CommunityPage } from './community.page';
     CommunityPageRoutingModule
   ],
   
+providers: [
+  provideAuth(() => getAuth())
+],
+
   declarations: [CommunityPage]
 })
 export class CommunityPageModule {}

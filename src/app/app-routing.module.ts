@@ -4,13 +4,18 @@ import { redirectUnauthorizedTo, redirectLoggedInTo, canActivate } from '@angula
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedInToHome = () => redirectLoggedInTo(['tabs/home']);
+const redirectLoggedInToProfile = () => redirectLoggedInTo(['tabs/profile']);
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabBarComponent,
     children: [
+      {
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
+        ...canActivate(redirectUnauthorizedToLogin)
+      },
       {
         path: 'home',
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
@@ -32,26 +37,21 @@ const routes: Routes = [
         loadChildren: () => import('./community/community.module').then(m => m.CommunityPageModule),
         ...canActivate(redirectUnauthorizedToLogin)
       },
-      {
-        path: 'profile',
-        loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
-        ...canActivate(redirectUnauthorizedToLogin)
-      },
     ]
   },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
-    ...canActivate(redirectLoggedInToHome)
+    ...canActivate(redirectLoggedInToProfile)
   },
   {
     path: '',
-    redirectTo: 'tabs/home',
+    redirectTo: 'tabs/profile',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'tabs/home'
+    redirectTo: 'tabs/profile'
   }
 ];
 
