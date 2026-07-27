@@ -28,12 +28,17 @@ export class AddPhotosPage implements OnInit {
 
   currentProfile?: Profile;
   bucketItemArray: BucketListItem[] = [];
-  selectedUsers = [];
+  //testArray: BucketListItem[] = [new BucketListItem("test 1", "", true, ""), new BucketListItem("Jerry", "", false, "")];
+  selectedItems: BucketListItem[] = [];
 
   constructor(private auth: Auth, private firestore: Firestore, private modalController: ModalController, private userProfileService: UserProfileService) {
     this.currentProfile = this.userProfileService.currentProfile;
     this.bucketItemArray = this.currentProfile.profileBucketListItems;
    }
+
+   compareWithFn(o1: BucketListItem, o2: BucketListItem): boolean {
+  return o1 && o2 ? o1.itemName === o2.itemName : o1 === o2;
+}
 
   async ngOnInit() {
     
@@ -51,7 +56,13 @@ export class AddPhotosPage implements OnInit {
   }
 
   addPhoto() {
-    console.log("need to have access to a person's photos and also need to implement allow photos");
+    // for(let i=0; i < this.selectedItems.length; i++) {
+    //   console.log(this.selectedItems[i].itemName);
+    // }
+    // if(this.selectedItems.length == 0) {
+    //   console.log("No items selected");
+    // }
+    //console.log("need to have access to a person's photos and also need to implement allow photos");
   }
 
 }
