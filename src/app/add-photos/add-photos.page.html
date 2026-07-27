@@ -3,12 +3,12 @@
     <ion-row class="ion-justify-content-center">
       <ion-col>
         <ion-card class="mycard">
-        <ion-card-title color="primary">Select Bucket List Items</ion-card-title>
-        <ion-select multiple="true" [(ngModel)]="selectedItems" [compareWith]="compareWithFn">
-          <ion-select-option *ngFor="let bucketItems of bucketItemArray" [value]="bucketItems">
-            {{ bucketItems.itemName }}
-          </ion-select-option>
-        </ion-select>
+          <ion-card-title color="primary">Select Bucket List Items</ion-card-title>
+          <ion-select multiple="true" [(ngModel)]="selectedItems" [compareWith]="compareWithFn">
+            <ion-select-option *ngFor="let bucketItems of bucketItemArray" [value]="bucketItems">
+              {{ bucketItems.itemName }}
+            </ion-select-option>
+          </ion-select>
         </ion-card>
       </ion-col>
     </ion-row>
@@ -28,8 +28,8 @@
           OR
         </ion-title>
         <br>
-         <ion-button shape="round" expand="block" fill="solid" size="large" (click)="addPhoto()">
-          Add photo to bucket item
+        <ion-button shape="round" expand="block" fill="solid" size="large" (click)="addPhoto()">
+          Choose from camera roll
         </ion-button>
       </ion-col>
     </ion-row>
