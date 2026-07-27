@@ -1,7 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { BucketService, BucketItem } from '../services/bucket-service';
-import { Subscription } from 'rxjs';
 
+
+
+import { Component } from '@angular/core';
+
+export interface BucketItem {
+
+  id: number;
+
+  title: string;
+
+  description: string;
+
+  image: string;
+
+  completed: boolean;
+
+}
 
 @Component({
   selector: 'app-bucket',
@@ -9,101 +23,86 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./bucket.page.scss'],
   standalone: false,
 })
-export class BucketPage implements OnInit {
+export class BucketPage {
 
-  userName = "Katie";
+  nextId = 1;
 
-  nextId: number = 100;
+  selectedTab = "incomplete";
 
-  bucketList: BucketItem[] = [];
+  bucketList: BucketItem[] = [
 
-  bucketItemSubscription?: Subscription
+    {
+      id: 1,
+      title: "Study Abroad",
+      description: "Spend a semester in Spain.",
+      image: "assets/spain.jpg",
+      completed: false
+    },
 
-  constructor(private bucketService: BucketService) { }
-
-  ngOnInit() {
-    // this.bucketList = this.bucketService.getItems();
-    //this.bucketItemSubscription = this.bucketService.SOMETHING.subscribe
-
-  this.bucketService.getItems().subscribe((bucketItems: BucketItem[]) => {
-  this.bucketList = bucketItems;
-});
-      // bucketItems contains: id, title, description, image, completed
-      // Update your component with the latest bucket items
-    ;
-
-    // Temporary sample data while your partner is still working
-    if (this.bucketList.length === 0) {
-      this.bucketService.saveBucketItem({
-        id: 1,
-        title: "Study Abroad in Spain",
-        description: "Spend spring semester in Spain.",
-        image: "assets/spain.jpg",
-        completed: false
-      });
-
-      this.bucketService.saveBucketItem({
-        id: 2,
-        title: "Go Skydiving",
-        description: "Schedule Jump Omaha in August.",
-        image: "assets/skydive.jpg",
-        completed: true
-      });
-
-      //this.bucketList = this.bucketService.getItems();
+    {
+      id: 2,
+      title: "Skydiving",
+      description: "Jump from 15,000 feet.",
+      image: "assets/skydive.jpg",
+      completed: true
     }
+
+  ];
+
+  get incompleteItems() {
+    return this.bucketList.filter(item => !item.completed);
   }
 
-  get completedItems(): number {
-    return this.bucketList.filter(item => item.completed).length;
+  get completedBucketItems() {
+    return this.bucketList.filter(item => item.completed);
   }
 
-  get totalItems(): number {
+  get completedItems() {
+    return this.completedBucketItems.length;
+  }
+
+  get totalItems() {
     return this.bucketList.length;
   }
 
-  get progress(): number {
-    if (this.totalItems === 0) {
-      return 0;
-    }
+  get progress() {
 
-    return (this.completedItems / this.totalItems) * 100;
+    if (this.totalItems == 0)
+      return 0;
+
+    return this.completedItems / this.totalItems * 100;
+
   }
 
+  addBucketItem() {
 
+    this.bucketList.unshift({
 
-  //test functions
-addCompletedItem() {
+      id: this.nextId++,
 
-  this.bucketList.push({
-    id: this.nextId++,
-    title: "Test Goal",
-    description: "Testing progress bar",
-    image: "https://ionicframework.com/docs/img/demos/card-media.png",
-    completed: true
-  });
+      title: "New Goal",
+
+      description: "",
+
+      image: "https://ionicframework.com/docs/img/demos/card-media.png",
+
+      completed: false
+
+    });
+
+  }
+
+  toggleComplete(item: BucketItem) {
+
+    item.completed = !item.completed;
+
+  }
+
+  deleteItem(id: number) {
+
+    this.bucketList =
+      this.bucketList.filter(item => item.id !== id);
+
+  }
 
 }
-
-addIncompleteItem() {
-
-  this.bucketList.push({
-    id: this.nextId++,
-    title: "New Goal",
-    description: "This goal has not been completed yet.",
-    image: "https://ionicframework.com/docs/img/demos/card-media.png",
-    completed: false
-  });
-
-}
-
-deleteItem(id: number) {
-  this.bucketList = this.bucketList.filter(item => item.id !== id);
-}
-}
-
-  // toggle(id: number) {
-  //   this.bucketService.toggleComplete(id);
-  // }
-
-
