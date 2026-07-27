@@ -3,12 +3,12 @@
     <ion-row class="ion-align-content-center">
       <ion-col size="4"> </ion-col>
       <ion-col size="4">
-        <!-- <ion-label>Select Users</ion-label>
-        <ion-select multiple="true" [(ngModel)]="selectedUsers">
-          <ion-select-option *ngFor="let bucketItems of bucketListArray" [value]="bucketItems">
-            {{ user.name }}
+        <ion-label>Select Bucket List Items</ion-label>
+        <ion-select multiple="true" [(ngModel)]="selectedItems" [compareWith]="compareWithFn">
+          <ion-select-option *ngFor="let bucketItems of bucketItemArray" [value]="bucketItems">
+            {{ bucketItems.itemName }}
           </ion-select-option>
-        </ion-select> -->
+        </ion-select>
       </ion-col>
       <ion-col size="4"> </ion-col>
     </ion-row>
