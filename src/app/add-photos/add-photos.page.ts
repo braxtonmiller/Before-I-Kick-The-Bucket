@@ -6,6 +6,8 @@ import { Auth } from '@angular/fire/auth';
 import { BucketListItem } from '../models/bucket-list-item';
 import { Profile } from '../models/profile';
 import { UserProfileService } from '../services/user-profile';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../service/auth';
 
 @Component({
   selector: 'app-add-photos',
@@ -27,21 +29,30 @@ the page after the user is done adding to bucket lists*/
 export class AddPhotosPage implements OnInit {
 
   currentProfile?: Profile;
+  profileSub?: Subscription
   bucketItemArray: BucketListItem[] = [];
   //testArray: BucketListItem[] = [new BucketListItem("test 1", "", true, ""), new BucketListItem("Jerry", "", false, "")];
   selectedItems: BucketListItem[] = [];
 
-  constructor(private auth: Auth, private firestore: Firestore, private modalController: ModalController, private userProfileService: UserProfileService) {
-    this.currentProfile = this.userProfileService.currentProfile;
-    this.bucketItemArray = this.currentProfile.profileBucketListItems;
-   }
+  constructor(
+    private modalController: ModalController, 
+    private userProfileService: UserProfileService,
+    private authService: AuthService,
+  ) {
 
-   compareWithFn(o1: BucketListItem, o2: BucketListItem): boolean {
-  return o1 && o2 ? o1.itemName === o2.itemName : o1 === o2;
-}
+  }
+
+  ngOnDestroy() {
+    this.profileSub?.unsubscribe()
+  }
+
+  compareWithFn(o1: BucketListItem, o2: BucketListItem): boolean {
+    return o1 && o2 ? o1.itemName === o2.itemName : o1 === o2;
+  }
 
   async ngOnInit() {
-    
+    this.currentProfile = await this.userProfileService.getUserProfileOnce(this.authService.getCurrentUserUid())
+    this.bucketItemArray = this.currentProfile.bucketListItems
   }
 
   addBucketListItem() {
@@ -49,10 +60,14 @@ export class AddPhotosPage implements OnInit {
   }
 
   async takePhoto() {
-    let modal = await this.modalController.create({
-      component:CameraComponent
-    })
-    await modal.present();
+    if (this.selectedItems.length == 0) {
+      console.log("bucket list items must be selected before a photo is taken");
+    } else {
+      let modal = await this.modalController.create({
+        component: CameraComponent
+      })
+      await modal.present();
+    }
   }
 
   addPhoto() {

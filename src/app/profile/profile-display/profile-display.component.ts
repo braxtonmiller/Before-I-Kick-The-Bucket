@@ -15,11 +15,12 @@ export class ProfileDisplayComponent  implements OnInit {
 
   ngOnInit() {}
 
- profileData = {
-      username: this.profileIn.profileUsername,
-      email: this.profileIn.profileEmail,
-      phoneNumber: this.profileIn.profilePhoneNumber,
-      profilePicture: this.profileIn.profileImageURL
+ profileData: Profile = {
+      username: this.profileIn.username,
+      email: this.profileIn.email,
+      phoneNumber: this.profileIn.phoneNumber,
+      profilePicture: this.profileIn.profilePicture,
+      bucketListItems: this.profileIn.bucketListItems
     };
 
 }

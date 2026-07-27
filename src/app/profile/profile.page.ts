@@ -5,6 +5,7 @@ import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { BucketListItem } from '../models/bucket-list-item';
 import { UserProfileService } from '../services/user-profile';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,7 @@ export class ProfilePage implements OnInit {
   // marcusInfo: Profile = new Profile("Marcus", "andjc", "Dachshund", "assets/")
 
 
-  isEditing: boolean = true;
+  isEditing: boolean = false;
 
   profileUsernameInput: string = "";
   profileEmailInput: string = "";
@@ -34,28 +35,22 @@ export class ProfilePage implements OnInit {
     private auth: Auth,
     private userProfileService: UserProfileService
   ) {
-    this.currentProfile = this.userProfileService.currentProfile;
+
   }
 
+  ngOnInit() {
 
-  async ngOnInit() {
-    // Automatically load their existing profile data when they open the page
-    const user = this.auth.currentUser;
-    if (user) {
-      const docRef = doc(this.firestore, "users", user.uid);
-      const docSnap = await getDoc(docRef);
+  }
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        this.profileUsernameInput = data['username'] || "";
-        this.profileEmailInput = data['email'] || "";
-        this.profilePhoneNumberInput = data['phoneNumber'] || "";
-        this.profileImageURLInput = data['profilePicture'] || "";
-
-        // If they already have a profile set up, show the display screen instead of the form
-        this.isEditing = false;
-      }
-    }
+  async ionViewDidEnter() {
+    console.log('get data', this.auth.currentUser!.uid)
+    this.currentProfile = await this.userProfileService.getUserProfileOnce(this.auth.currentUser!.uid)
+    console.log(this.currentProfile, this.currentProfile)
+    
+    this.profileUsernameInput = this.currentProfile.username;
+    this.profileEmailInput = this.currentProfile.email;
+    this.profilePhoneNumberInput = this.currentProfile.phoneNumber;
+    this.profileImageURLInput = this.currentProfile.profilePicture;
   }
 
   async saveProfile() {
@@ -65,12 +60,12 @@ export class ProfilePage implements OnInit {
       return;
     }
 
-    const profileData = {
+    const profileData: Profile = {
       username: this.profileUsernameInput,
       email: this.profileEmailInput,
       phoneNumber: this.profilePhoneNumberInput,
       profilePicture: this.profileImageURLInput,
-      bucketList: this.profileBucketList
+      bucketListItems: this.profileBucketList
     };
 
     try {

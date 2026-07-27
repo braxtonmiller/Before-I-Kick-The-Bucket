@@ -6,6 +6,7 @@ import {
   signOut,
   User
 } from '@angular/fire/auth';
+import { UserProfileService } from '../services/user-profile';
 
 
 @Injectable({
@@ -15,14 +16,20 @@ export class AuthService {
 
 
 
-  constructor(private auth: Auth) {
-
+  constructor(
+    private auth: Auth,
+    private profileService: UserProfileService
+  ) {
+    auth.onAuthStateChanged(() => {
+      this.profileService.resetUserData()
+      this.profileService.getUserData(this.getCurrentUserUid())
+      console.log('auth state has changed', this.getCurrentUserUid())
+    })
   }
 
   getCurrentUserUid(): string {
-    if (this.auth.currentUser != null)
-      {return this.auth.currentUser.uid;}
-    throw new Error ('No user logged in')
+    if (this.auth.currentUser != null) { return this.auth.currentUser.uid; }
+    throw new Error('No user logged in')
   }
 
   async register(email: string, password: string, passwordConf: string) {

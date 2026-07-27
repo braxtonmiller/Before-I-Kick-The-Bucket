@@ -2,20 +2,20 @@ import { BucketListItem } from "./bucket-list-item";
 
 export class Profile {
 
-    profileUsername: string
-    profileEmail: string
-    profilePhoneNumber: string
-    profileImageURL: string
-    profileBucketListItems: BucketListItem[];
+    username: string
+    email: string
+    phoneNumber: string
+    profilePicture: string
+    bucketListItems: BucketListItem[];
     uid?: string
 
     constructor(profileUsernameIn: string, profileEmailIn: string, profilePhoneNumberIn: string, profileImageURLIn: string, profileBucketListItemsIn: BucketListItem[], uid?: string,) {
 
-        this.profileUsername = profileUsernameIn
-        this.profileEmail = profileEmailIn
-        this.profilePhoneNumber = profilePhoneNumberIn
-        this.profileImageURL = profileImageURLIn
+        this.username = profileUsernameIn
+        this.email = profileEmailIn
+        this.phoneNumber = profilePhoneNumberIn
+        this.profilePicture = profileImageURLIn
         this.uid = uid
-        this.profileBucketListItems = profileBucketListItemsIn;
+        this.bucketListItems = profileBucketListItemsIn;
     }
 }

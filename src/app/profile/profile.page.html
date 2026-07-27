@@ -50,26 +50,31 @@
 
 <ion-content>
   <div class="profile-container">
-    
+
     <!-- 1. DISPLAY VIEW (Shows when NOT editing) -->
     <div *ngIf="!isEditing">
       <div class="picture-container">
-  <ion-img [src]="profileImageURLInput" alt="Profile Pic" class="profilePic"></ion-img>
-</div>
+        <img [src]="profileImageURLInput" alt="Profile Pic" class="profilePic">
+      </div>
 
-<div class="profileInfo">
-  <ion-title style="font-size: 25px; text-align: center; color: rgb(0, 0, 0);"> Username:<p style="font-size: 15px; text-align: center; color: white;">
-      {{profileUsernameInput}}</p>
-  </ion-title>
-  <ion-title style="font-size: 25px; text-align: center; color: black;">Email:<p style="font-size: 15px; text-align: center; color: white;">
-      {{profileEmailInput}}</p></ion-title>
-  <ion-title style="font-size: 25px; text-align: center; color: black;">Phone Number:<p style="font-size: 15px; text-align: center; color: white;">
-      {{profilePhoneNumberInput}}</p></ion-title>
-  </div>
+      <div class="profileInfo">
+        <ion-title style="font-size: 25px; text-align: center; color: rgb(0, 0, 0);"> Username:
+          <p style="font-size: 15px; text-align: center; color: white;">
+            {{profileUsernameInput}}</p>
+        </ion-title>
+        <ion-title style="font-size: 25px; text-align: center; color: black;">Email:<p
+            style="font-size: 15px; text-align: center; color: white;">
+            {{profileEmailInput}}</p></ion-title>
+        <ion-title style="font-size: 25px; text-align: center; color: black;">Phone Number:<p
+            style="font-size: 15px; text-align: center; color: white;">
+            {{profilePhoneNumberInput}}</p></ion-title>
+      </div>
 
-   <ion-buttons slot="end" *ngIf="!isEditing">
-      <ion-button class="editProfileButton" (click)="isEditing = true"> <img src="assets/edit-icon.png" alt="edit-icon" style="width:20px; height:20px; vertical-align: middle; margin-right: 8px;">Edit Profile</ion-button>
-    </ion-buttons>
+      <ion-buttons slot="end" *ngIf="!isEditing">
+        <ion-button class="editProfileButton" (click)="isEditing = true"> <img src="assets/edit-icon.png"
+            alt="edit-icon" style="width:20px; height:20px; vertical-align: middle; margin-right: 8px;">Edit
+          Profile</ion-button>
+      </ion-buttons>
     </div>
 
     <!-- 2. SETUP / EDIT FORM VIEW (Shows when editing) -->
@@ -83,7 +88,7 @@
           <ion-input label="Profile Picture URL" [(ngModel)]="profileImageURLInput"></ion-input>
         </ion-card-content>
       </ion-card>
-      
+
       <ion-button expand="block" (click)="saveProfile()">
         Save Profile
       </ion-button>

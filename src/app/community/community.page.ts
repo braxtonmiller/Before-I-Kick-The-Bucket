@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { FriendService } from '../services/friend';
 import { ToastController, AlertController } from '@ionic/angular';
+import { UserProfileService } from '../services/user-profile';
+import { Profile } from '../models/profile';
+import { AuthService } from '../service/auth';
+import { Subscription } from 'rxjs';
 
 interface User {
   profileUsername: string;
@@ -22,7 +26,7 @@ export class CommunityPage implements OnInit {
 
   // FIX: Identify your active test profile username account here 
   // (Change this string value to test receiving a request as another registered user!)
-  myCurrentUsername: string = 'BMill07';
+  currentProfile?: Profile;
 
   posts: any[] = [
     { text: 'Welcome to the community feed!' },
@@ -34,18 +38,36 @@ export class CommunityPage implements OnInit {
   filteredFriends: User[] = [];
   searchText: string = '';
 
+  feedSub?: Subscription
+  requestSub?: Subscription
+  exploreSub?: Subscription
+
   private allExploreUsersMasterList: any[] = [];
 
   constructor(
     private firestore: Firestore,
     private friendService: FriendService,
     private toastController: ToastController,
-    private alertController: AlertController
-  ) { }
+    private alertController: AlertController,
+    private userProfileService: UserProfileService,
+    private authService: AuthService
+  ) {
 
-  ngOnInit() {
+   }
+
+  async ngOnInit() {
     this.loadCommunityFeed();
+    this.currentProfile = await this.userProfileService.getUserProfileOnce(this.authService.getCurrentUserUid())
+    this.loadFriendsData()
+    this.loadExploreUsers()
   }
+
+  ngOnDestroy() {
+    this.feedSub?.unsubscribe()
+    this.exploreSub?.unsubscribe()
+    this.requestSub?.unsubscribe()
+  }
+  
 
   searchFriends() {
     if (!this.searchText || this.searchText.trim() === '') {
@@ -64,18 +86,15 @@ export class CommunityPage implements OnInit {
   }
 
   tabChanged(event: any) {
-    if (this.currentTab === 'friends') {
-      this.loadFriendsData();
-    } else if (this.currentTab === 'explore') {
-      this.loadExploreUsers();
-    }
+
   }
 
   loadExploreUsers() {
-    this.friendService.getExploreUsers().subscribe({
+    this.exploreSub = this.friendService.getExploreUsers().subscribe({
       next: (databaseUsers) => {
+        console.log('in subscription')
         // Exclude the current logged-in profile from showing up on their own explore tab
-        const filteredDbUsers = databaseUsers.filter(u => u.username !== this.myCurrentUsername);
+        const filteredDbUsers = databaseUsers.filter(u => u.username !== this.currentProfile?.username);
 
         const formatted = filteredDbUsers.map(user => ({
           profileUsername: user.username || user.profileUsername || 'Unknown User',
@@ -93,10 +112,12 @@ export class CommunityPage implements OnInit {
 
   loadCommunityFeed() {
     // Keep your core feed logic here
+    // this.feedSub = ... TODO!!!
+
   }
 
   loadFriendsData() {
-    this.friendService.getFriendsList(this.myCurrentUsername).subscribe({
+    this.requestSub =this.friendService.getFriendsList(this.currentProfile!.username).subscribe({
       next: (relationships: any[]) => {
 
         // Pull master account fields from the 'users' collection to accurately append emails and avatars
@@ -107,7 +128,7 @@ export class CommunityPage implements OnInit {
 
           relationships.forEach(rel => {
             // Find out which username belongs to the friend in this relationship row
-            const friendUsername = (rel.senderUsername === this.myCurrentUsername) ? rel.receiverUsername : rel.senderUsername;
+            const friendUsername = (rel.senderUsername === this.currentProfile!.username) ? rel.receiverUsername : rel.senderUsername;
 
             // FIX: Robust check mapping comparing fields, names, or the database document ID itself
             const matchedUser = allUsers.find(u =>
@@ -134,8 +155,7 @@ export class CommunityPage implements OnInit {
           this.friends = formatted.filter(f => f.status === 'accepted');
 
           // Incoming requests only (where you are the receiver and status is pending)
-          this.pendingRequests = formatted.filter(f => f.status === 'pending' && f.senderUsername !== this.myCurrentUsername);
-
+          this.pendingRequests = formatted.filter(f => f.status === 'pending' && f.senderUsername !== this.currentProfile!.username);
           console.log('Pending Requests Processed Layout List:', this.pendingRequests);
           console.log('Active Mutual Friends Processed Layout List:', this.friends);
         });
@@ -145,7 +165,7 @@ export class CommunityPage implements OnInit {
   }
 
   accept(requestUsername: string) {
-    this.friendService.acceptFriendRequest(this.myCurrentUsername, requestUsername).subscribe({
+    this.friendService.acceptFriendRequest(this.currentProfile!.username, requestUsername).subscribe({
       next: () => {
         this.loadFriendsData(); // Refresh list layout from live database updates
       },
@@ -156,7 +176,7 @@ export class CommunityPage implements OnInit {
 
   // Triggered when a user clicks the "Ignore" button next to an incoming request
   ignore(requestUsername: string) {
-    this.friendService.removeFriend(this.myCurrentUsername, requestUsername).subscribe({
+    this.friendService.removeFriend(this.currentProfile!.username, requestUsername).subscribe({
       next: async () => {
         // Create a native toast notification confirming the action
         const toast = await this.toastController.create({
@@ -193,7 +213,7 @@ export class CommunityPage implements OnInit {
           role: 'destructive', // Gives the button a distinct style (red on some platforms)
           handler: () => {
             // This code executes ONLY if the user taps the 'Remove' button
-            this.friendService.removeFriend(this.myCurrentUsername, friendUsername).subscribe({
+            this.friendService.removeFriend(this.currentProfile!.username, friendUsername).subscribe({
               next: async () => {
                 const toast = await this.toastController.create({
                   message: `${friendUsername} has been removed from your friends.`,
@@ -215,7 +235,7 @@ export class CommunityPage implements OnInit {
   }
 
   sendRequest(user: any) {
-    this.friendService.sendFriendRequest(this.myCurrentUsername, user.profileUsername).subscribe({
+    this.friendService.sendFriendRequest(this.currentProfile!.username, user.profileUsername).subscribe({
       next: async () => {
         const toast = await this.toastController.create({
           message: `Friend request sent to ${user.profileUsername}!`,
