@@ -2,7 +2,14 @@ import { BucketListItem } from "./bucket-list-item";
 
 export class Profile {
 
-    profileUsername: string
+    /**
+     * TODO
+     * Update Properties to match firebase!!!!!!
+     * 
+     * use (ctrl + click) + Rename Symbol to quickly
+     * change property names
+     */
+    username: string
     profileEmail: string
     profilePhoneNumber: string
     profileImageURL: string
@@ -11,7 +18,7 @@ export class Profile {
 
     constructor(profileUsernameIn: string, profileEmailIn: string, profilePhoneNumberIn: string, profileImageURLIn: string, profileBucketListItemsIn: BucketListItem[], uid?: string,) {
 
-        this.profileUsername = profileUsernameIn
+        this.username = profileUsernameIn
         this.profileEmail = profileEmailIn
         this.profilePhoneNumber = profilePhoneNumberIn
         this.profileImageURL = profileImageURLIn

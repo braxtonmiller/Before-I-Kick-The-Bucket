@@ -65,6 +65,11 @@ export class ProfilePage implements OnInit {
       return;
     }
 
+    /**
+     * TODO: This does not match the in app model!
+     * Since we already have data in firebase, we
+     * should make the in app model match this format
+     */
     const profileData = {
       username: this.profileUsernameInput,
       email: this.profileEmailInput,
