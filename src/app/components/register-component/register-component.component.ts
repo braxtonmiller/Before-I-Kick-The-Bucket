@@ -66,6 +66,18 @@ export class RegisterComponent implements OnInit {
   async register() {
     try {
       let result = await this.authService.register(this.registerEmailIn, this.registerPasswordIn, this.registerPasswordConfIn);
+      if (this.registerEmailIn == "" || this.registerPasswordIn == "" || this.registerPasswordConfIn == "") {
+        //add feature where the account must use a new email or throw error
+        let alert = await this.alertController.create({
+          header: "Error",
+          message: "Ensure all fields are filled in to register",
+          buttons: ["OK"]
+        })
+
+        await alert.present()
+        return
+      }
+
 
       if (result != null) {
         this.router.navigateByUrl('home');
