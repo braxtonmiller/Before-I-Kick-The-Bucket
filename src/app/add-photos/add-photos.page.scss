@@ -1,3 +1,11 @@
-.full-width{
-    width: 100%;
+.mycard{
+    height: 75px;
+    width: 250px;
+    left: 39%;
+    top: 50%;
+    text-align: center
+}
+
+ion-content {
+  --background: linear-gradient(to top, #8d09c6, #afafaf);
 }

@@ -17,9 +17,9 @@ export class ProfileDisplayComponent  implements OnInit {
 
  profileData = {
       username: this.profileIn.username,
-      email: this.profileIn.profileEmail,
-      phoneNumber: this.profileIn.profilePhoneNumber,
-      profilePicture: this.profileIn.profileImageURL
+      email: this.profileIn.email,
+      phoneNumber: this.profileIn.phoneNumber,
+      profilePicture: this.profileIn.profilePicture
     };
 
 }

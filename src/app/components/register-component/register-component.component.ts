@@ -25,44 +25,6 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() { }
 
-  // async submitRecipe() {
-
-  //     try {
-
-  //       let recipeToAdd = new Recipe(this.ingredientIn, this.directionsIn, this.nameIn, this.cookTimeIn, this.prepTimeIn)
-
-  //       if (this.nameIn == "" || this.cookTimeIn == "" || this.prepTimeIn == "" || this.directionsIn.length == 0 || this.ingredientIn.length == 0) {
-  //         let alert = await this.alertController.create({
-  //           header: "Error",
-  //           message: "Why did you leave stuff blank stupidhead",
-  //           buttons: ["OK"]
-  //         })
-
-  //         await alert.present()
-  //         return
-  //       }
-
-  //       this.recipeService.saveRecipe(recipeToAdd)
-
-  //       this.nameIn = ""
-  //       this.cookTimeIn = ""
-  //       this.prepTimeIn = ""
-  //       this.directionsIn = []
-  //       this.ingredientIn = []
-
-  //       this.dismissModal()
-
-  //       let alert = await this.alertController.create({
-  //         header: "Recipe Added",
-  //         message: "Good Job Cuh",
-  //         buttons: ["OK"]
-
-  //       })
-  //       await alert.present()
-  //     }
-  //   }
-
-
   async register() {
     try {
       let result = await this.authService.register(this.registerEmailIn, this.registerPasswordIn, this.registerPasswordConfIn);

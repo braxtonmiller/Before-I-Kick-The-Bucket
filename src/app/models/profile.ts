@@ -10,19 +10,19 @@ export class Profile {
      * change property names
      */
     username: string
-    profileEmail: string
-    profilePhoneNumber: string
-    profileImageURL: string
-    profileBucketListItems: BucketListItem[];
+    email: string
+    phoneNumber: string
+    profilePicture: string
+    bucketList: BucketListItem[];
     uid?: string
 
-    constructor(profileUsernameIn: string, profileEmailIn: string, profilePhoneNumberIn: string, profileImageURLIn: string, profileBucketListItemsIn: BucketListItem[], uid?: string,) {
+    constructor(usernameIn: string, emailIn: string, phoneNumberIn: string, profilePictureIn: string, bucketListIn: BucketListItem[], uid?: string,) {
 
-        this.username = profileUsernameIn
-        this.profileEmail = profileEmailIn
-        this.profilePhoneNumber = profilePhoneNumberIn
-        this.profileImageURL = profileImageURLIn
+        this.username = usernameIn
+        this.email = emailIn
+        this.phoneNumber = phoneNumberIn
+        this.profilePicture = profilePictureIn
         this.uid = uid
-        this.profileBucketListItems = profileBucketListItemsIn;
+        this.bucketList = bucketListIn;
     }
 }

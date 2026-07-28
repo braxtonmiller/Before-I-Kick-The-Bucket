@@ -33,7 +33,7 @@ export class AddPhotosPage implements OnInit {
 
   constructor(private auth: Auth, private firestore: Firestore, private modalController: ModalController, private userProfileService: UserProfileService) {
     this.currentProfile = this.userProfileService.currentProfile;
-    this.bucketItemArray = this.currentProfile.profileBucketListItems;
+    this.bucketItemArray = this.currentProfile.bucketList;
    }
 
    compareWithFn(o1: BucketListItem, o2: BucketListItem): boolean {
