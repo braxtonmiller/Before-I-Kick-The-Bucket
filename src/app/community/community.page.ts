@@ -43,11 +43,11 @@ export class CommunityPage implements OnInit {
       .subscribe((users: any[]) => {
 
         this.friends = users.map(user => ({
-          profileUsername: user.username || '',
-          profileEmail: user.email || '',
-          profilePhoneNumber: user.phoneNumber || '',
+          profileUsername: user.profileUsername || '',
+          profileEmail: user.profileEmail || '',
+          profilePhoneNumber: user.profilePhoneNumber || '',
           profileImageURL:
-            user.profilePicture && user.profilePicture !== ''
+            user.profilePicture && user.profileImageURL !== ''
               ? user.profilePicture
               : 'https://ionicframework.com/docs/img/demos/avatar.svg'
         }));
