@@ -42,7 +42,7 @@ export class AddPhotosPage implements OnInit, OnDestroy {
 
   async takePhoto() {
     if (this.selectedItems.length === 0) {
-      console.log("Must select bucket list items before you can take a photo");
+      alert("Must select bucket list items before you can take a photo");
       return;
     }
 
@@ -66,7 +66,7 @@ export class AddPhotosPage implements OnInit, OnDestroy {
 
   async getPhotoFromDevice() {
     if (this.selectedItems.length === 0) {
-      console.log("Must select bucket list items before choosing a photo");
+      alert("Must select bucket list items before choosing a photo");
       return;
     }
 
@@ -75,7 +75,7 @@ export class AddPhotosPage implements OnInit, OnDestroy {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Prompt
+        source: CameraSource.Photos
       });
 
       this.imageBase64 = image.dataUrl;

@@ -1,7 +1,6 @@
 .mycard{
     height: 75px;
     width: 250px;
-    left: 39%;
     top: 50%;
     text-align: center
 }
@@ -13,4 +12,9 @@ ion-content {
 .image-formatting {
   width: 100%;
   height: 100%;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
 }
