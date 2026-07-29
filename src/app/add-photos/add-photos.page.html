@@ -1,7 +1,9 @@
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col>
+      <ion-col></ion-col>
+      <ion-col class="center-container">
+        
         <ion-card class="mycard">
           <ion-card-title color="primary">Select Bucket List Items</ion-card-title>
           <ion-select multiple="true" [(ngModel)]="selectedItems" [compareWith]="compareWithFn">
@@ -10,7 +12,9 @@
             </ion-select-option>
           </ion-select>
         </ion-card>
+        
       </ion-col>
+      <ion-col></ion-col>
     </ion-row>
     <ion-row>
       <br>

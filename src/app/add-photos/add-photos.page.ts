@@ -75,7 +75,7 @@ export class AddPhotosPage implements OnInit, OnDestroy {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Prompt
+        source: CameraSource.Photos
       });
 
       this.imageBase64 = image.dataUrl;
