@@ -74,11 +74,11 @@ export class AddPhotosPage implements OnInit, OnDestroy {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
-        resultType: CameraResultType.Base64,
+        resultType: CameraResultType.DataUrl,
         source: CameraSource.Prompt
       });
 
-      this.imageBase64 = image.base64String;
+      this.imageBase64 = image.dataUrl;
       console.log("imageBase64: " + this.imageBase64)
 
       if (this.imageBase64) {
