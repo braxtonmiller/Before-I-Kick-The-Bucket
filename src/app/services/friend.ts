@@ -1,19 +1,23 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, query, where, addDoc, getDocs, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable, combineLatest, map, from } from 'rxjs';
+import { Profile } from '../models/profile';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FriendService {
-  private firestore: Firestore = inject(Firestore);
+
+  constructor(
+    private firestore: Firestore,
+  ) {}
 
   // 1. Fetch explore users, excluding the current logged-in user from the directory view
-  getExploreUsers(currentUserUsername: string): Observable<any[]> {
+  getExploreUsers(currentUserUsername: string): Observable<Profile[]> {
     const usersCollection = collection(this.firestore, 'users');
     // Using a Firestore query constraint protects visibility on the database level
-    const exploreQuery = query(usersCollection, where('username', '!=', currentUserUsername));
-    return collectionData(exploreQuery, { idField: 'id' }) as Observable<any[]>;
+    const exploreQuery = query(usersCollection, where('profileUsername', '!=', currentUserUsername));
+    return collectionData(exploreQuery, { idField: 'id' }) as Observable<Profile[]>;
   }
 
   // 2. Fetch live requests matching the current user's username exclusively
@@ -25,8 +29,8 @@ export class FriendService {
     const queryReceived = query(friendshipsRef, where('receiverUsername', '==', currentUserUsername));
 
     return combineLatest([
-      collectionData(querySent, { idField: 'docId' }),
-      collectionData(queryReceived, { idField: 'docId' })
+      collectionData(querySent, { idField: 'id' }),
+      collectionData(queryReceived, { idField: 'id' })
     ]).pipe(
       map(([sent, received]) => [...sent, ...received])
     );

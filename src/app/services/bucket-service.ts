@@ -29,7 +29,7 @@ export class BucketService {
       this.firebaseService.readCollection("bucketItems").subscribe(
         res => {
           //map JSON from firebase to BucketItem
-          let bucketItems = res.map((bucketItem: any) => new BucketItem(bucketItem.id, bucketItem.title, bucketItem.description, bucketItem.image, bucketItem.completed))
+          let bucketItems = res.map((bucketItem: any) => new BucketItem(bucketItem.title, bucketItem.description, bucketItem.image, bucketItem.completed, bucketItem.uid, bucketItem.id))
           //update BehaviorSubject to have newest Firebase values
           this._bucketItems.next(bucketItems)
         },
@@ -44,7 +44,7 @@ export class BucketService {
       let uid = this.authService.getCurrentUserUid()
       this.firebaseService.readCollectionByUid("bucketItems", uid).subscribe(
         (res: any[]) => {
-          let bucketItems = res.map((bucketItem: any) => new BucketItem(bucketItem.id, bucketItem.title, bucketItem.description, bucketItem.image, bucketItem.completed, bucketItem.uid))
+          let bucketItems = res.map((bucketItem: any) => new BucketItem(bucketItem.title, bucketItem.description, bucketItem.image, bucketItem.completed, bucketItem.uid, bucketItem.id))
           this._userBucketItems.next(bucketItems)
         },
       )
@@ -62,13 +62,25 @@ export class BucketService {
     return this._userBucketItems.asObservable()
   }
 
+  async createBucketItem(): Promise<BucketItem> {
+    const uid = this.authService.getCurrentUserUid()
+    const newItem = new BucketItem('', '', '', false, uid)
+    const id = await this.firebaseService.createDoc(newItem, 'bucketItems')
+    newItem.id = id
+    return newItem
+  }
+
+  async updateBucketItem(id: string, changes: Partial<BucketItem>) {
+    await this.firebaseService.updateDoc(changes, `bucketItems/${id}`)
+  }
+
   async saveBucketItem(bucket: BucketItem) {
     bucket.uid = this.authService.getCurrentUserUid()
     await this.firebaseService.createDoc(bucket, `bucketItems`)
   }
 
   async deleteBucketItem(bucket: BucketItem) {
-    await this.firebaseService.deleteDoc(`bucketItems/${bucket.title}`)
+    await this.firebaseService.deleteDoc(`bucketItems/${bucket.id}`)
   }
 
   ngOnDestroy() {

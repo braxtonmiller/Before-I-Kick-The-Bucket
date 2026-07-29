@@ -5,13 +5,8 @@ import { ToastController, AlertController } from '@ionic/angular';
 import { Auth, user } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 import { Profile } from '../models/profile';
-import { BucketListItem } from '../models/bucket-list-item';
 
-interface User {
-  username: string;
-  email: string;
-  phoneNumber: string;
-  profilePicture: string;
+interface User extends Profile {
   expanded?: boolean;
   relationStatus?: string;
   bucketArrayOfItems?: any[];
@@ -66,12 +61,12 @@ export class CommunityPage implements OnInit {
 
           // Find the profile record where the email property matches the auth login session email
           const myProfile = allUsers.find(u =>
-            (u.email && u.email.toLowerCase() === authEmail.toLowerCase())
+            (u.profileEmail && u.profileEmail.toLowerCase() === authEmail.toLowerCase())
           );
 
           if (myProfile) {
             // 3. FIX: Assign your core string variable to their real, unique username field!
-            this.myCurrentUsername = myProfile.username || myProfile.id;
+            this.myCurrentUsername = myProfile.profileUsername
             console.log('Linked auth email to database user profile name:', this.myCurrentUsername);
 
             // 4. Safely initialize your tab views now that your user context identity string is loaded
@@ -99,7 +94,6 @@ export class CommunityPage implements OnInit {
     }
   }
 
-
   searchFriends() {
     if (!this.searchText || this.searchText.trim() === '') {
       this.filteredFriends = this.allExploreUsersMasterList;
@@ -107,8 +101,8 @@ export class CommunityPage implements OnInit {
     }
     const lowerSearch = this.searchText.toLowerCase();
     this.filteredFriends = this.allExploreUsersMasterList.filter(user =>
-      user.username.toLowerCase().includes(lowerSearch) ||
-      user.email.toLowerCase().includes(lowerSearch)
+      user.profileUsername.toLowerCase().includes(lowerSearch) ||
+      user.profileEmail.toLowerCase().includes(lowerSearch)
     );
   }
 
@@ -132,17 +126,18 @@ export class CommunityPage implements OnInit {
 
     this.friendService.getExploreUsers(this.myCurrentUsername).subscribe({
       next: (databaseUsers) => {
+        console.log('all users', databaseUsers)
         this.friendService.getFriendsList(this.myCurrentUsername).subscribe({
           next: (relationships: any[]) => {
 
             // Map over ALL database profiles (excluding yourself)
             const filteredDbUsers = databaseUsers.filter(u => {
-              const username = u.username || u.id;
+              const username = u.profileUsername || u.id;
               return username !== this.myCurrentUsername;
             });
 
             const formatted = filteredDbUsers.map(user => {
-              const targetUsername = user.username || user.id;
+              const targetUsername = user.profileUsername || user.id;
 
               // Find if any relationship entry matches this specific user
               const matchedRel = relationships.find(rel =>
@@ -150,10 +145,10 @@ export class CommunityPage implements OnInit {
               );
 
               return {
-                username: targetUsername,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                profilePicture: user.profilePicture || 'assets/profile-image-placeholder.avif',
+                profileUsername: targetUsername!,
+                profileEmail: user.profileEmail,
+                profilePhoneNumber: user.profilePhoneNumber,
+                profileImageURL: user.profileImageURL || 'assets/profile-image-placeholder.avif',
                 expanded: false,
                 // Assign relationStatus based on Firestore records
                 relationStatus: matchedRel ? matchedRel.status : 'none'
@@ -174,8 +169,11 @@ export class CommunityPage implements OnInit {
   }
 
   loadFriendsData() {
+    console.log('current username', this.myCurrentUsername)
     this.friendService.getFriendsList(this.myCurrentUsername).subscribe({
       next: (relationships: any[]) => {
+
+        console.log('loading data', relationships)
 
         // Pull master account fields from the 'users' collection to accurately append emails and avatars
         const usersRef = collection(this.firestore, 'users');
@@ -189,17 +187,17 @@ export class CommunityPage implements OnInit {
 
             // FIX: Robust check mapping comparing fields, names, or the database document ID itself
             const matchedUser = allUsers.find(u =>
-              u.username === friendUsername ||
+              u.profileUsername === friendUsername ||
               u.id === friendUsername
             );
 
-            const dbImage = matchedUser?.profilePicture;
+            const dbImage = matchedUser?.profileImageURL;
 
             formatted.push({
-              username: friendUsername,
-              email: matchedUser?.email || 'No email shared',
-              phoneNumber: matchedUser?.phoneNumber || matchedUser?.phone || '',
-              profilePicture: (dbImage && dbImage.trim() !== '') ? dbImage : 'assets/profile-image-placeholder.avif',
+              profileUsername: friendUsername,
+              profileEmail: matchedUser?.profileEmail || 'No email shared',
+              profilePhoneNumber: matchedUser?.profilePhoneNumber || '',
+              profileImageURL: (dbImage && dbImage.trim() !== '') ? dbImage : 'assets/profile-image-placeholder.avif',
               expanded: false,
               status: rel.status,
               // Track who sent it to safely sort into pending vs incoming requests lists
@@ -292,16 +290,16 @@ export class CommunityPage implements OnInit {
   }
 
   sendRequest(user: User) {
-    this.friendService.sendFriendRequest(this.myCurrentUsername, user.username).subscribe({
+    this.friendService.sendFriendRequest(this.myCurrentUsername, user.profileUsername).subscribe({
       next: async () => {
         const toast = await this.toastController.create({
-          message: `Friend request sent to ${user.username}!`,
+          message: `Friend request sent to ${user.profileUsername}!`,
           duration: 2000,
           position: 'bottom',
           color: 'success'
         });
         await toast.present();
-        this.filteredFriends = this.filteredFriends.filter(f => f.username !== user.username);
+        this.filteredFriends = this.filteredFriends.filter(f => f.profileUsername !== user.profileUsername);
       },
       error: (err: any) => console.error('Failed to send friend request', err)
     });
@@ -309,11 +307,11 @@ export class CommunityPage implements OnInit {
 
   // Triggered when a user clicks the "Unadd" button to retract a pending request
   unaddRequest(user: User) {
-    this.friendService.removeFriend(this.myCurrentUsername, user.username).subscribe({
+    this.friendService.removeFriend(this.myCurrentUsername, user.profileUsername).subscribe({
       next: async () => {
         // Display a clean native toast confirmation banner
         const toast = await this.toastController.create({
-          message: `Retracted friend request sent to ${user.username}.`,
+          message: `Retracted friend request sent to ${user.profileUsername}.`,
           duration: 2000,
           position: 'bottom',
           color: 'warning'

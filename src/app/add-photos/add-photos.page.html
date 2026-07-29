@@ -6,7 +6,7 @@
           <ion-card-title color="primary">Select Bucket List Items</ion-card-title>
           <ion-select multiple="true" [(ngModel)]="selectedItems" [compareWith]="compareWithFn">
             <ion-select-option *ngFor="let bucketItems of bucketItemArray" [value]="bucketItems">
-              {{ bucketItems.itemName }}
+              {{ bucketItems.title }}
             </ion-select-option>
           </ion-select>
         </ion-card>
@@ -28,11 +28,16 @@
           OR
         </ion-title>
         <br>
-        <ion-button shape="round" expand="block" fill="solid" size="large" (click)="addPhoto()">
+        <ion-button shape="round" expand="block" fill="solid" size="large" (click)="getPhotoFromDevice()">
           Choose from camera roll
         </ion-button>
       </ion-col>
     </ion-row>
-  </ion-grid>
 
+    <!-- remove this later, this is only for testing purposes -->
+    <!-- <ion-button (click)="displayPhoto()">
+      display
+    </ion-button> -->
+    <ion-img class="image-formatting" [src]="imageBase64" />
+  </ion-grid>
 </ion-content>

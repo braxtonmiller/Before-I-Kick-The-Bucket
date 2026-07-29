@@ -34,6 +34,8 @@ export class AuthService {
       return user;
     }
     catch (e: any) {
+      console.error('Registration error:', e.code, e.message);
+
       return null;
     }
   }
