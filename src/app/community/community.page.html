@@ -114,14 +114,21 @@
             </ion-button>
 
           </div>
-          <ion-button slot="end" fill="outline" (click)="toggleInfo(friend)"
-            style="background-color: #7e0e9a; color: white;">
-            → {{ friend.expanded ? 'Hide Info' : 'View Info' }}
-          </ion-button>
+          <!-- Only friends can view info -->
+<ion-button
+  *ngIf="friend.relationStatus === 'accepted'"
+  slot="end"
+  fill="outline"
+  (click)="toggleInfo(friend)"
+  style="background-color: #7e0e9a; color: white;">
+
+  → {{ friend.expanded ? 'Hide Info' : 'View Info' }}
+
+</ion-button>
         </ion-item>
 
-        @if(friend.expanded){
-        <ion-card-content>
+       @if(friend.expanded && friend.relationStatus === 'accepted'){
+<ion-card-content>
           <h3>Contact Info</h3>
           <p>📧 {{ friend.profileEmail }}</p>
           <p>📱 {{ friend.profilePhoneNumber }}</p>
