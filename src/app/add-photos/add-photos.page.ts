@@ -79,6 +79,7 @@ export class AddPhotosPage implements OnInit, OnDestroy {
       });
 
       this.imageBase64 = image.base64String;
+      console.log("imageBase64: " + this.imageBase64)
 
       if (this.imageBase64) {
         for (const item of this.selectedItems) {
