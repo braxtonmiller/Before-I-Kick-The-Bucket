@@ -1,86 +1,143 @@
-
-
-   <ion-header>
+<ion-header>
   <ion-toolbar>
     <ion-title>Community</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-toolbar color="primary">
+  <ion-segment [(ngModel)]="currentTab" (ionChange)="tabChanged($event)">
+    <ion-segment-button value="feed">
+      <ion-label>Feed</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="friends">
+      <ion-label>Friends</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="explore">
+      <ion-label>Explore</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
 
-  <ion-searchbar
-    [(ngModel)]="searchText"
-    (ionInput)="searchFriends()"
-    placeholder="Search users">
-  </ion-searchbar>
+<ion-content class="ion-padding">
 
-  <!-- <ion-list lines="none"> -->
-
-
-
- <ion-list lines="none">
-
-  @for (friend of filteredFriends; track friend.profileUsername) {
-
-    <ion-card>
-
-      <ion-item>
-
-        <ion-avatar slot="start">
-          <img [src]="friend.profileImageURL">
-        </ion-avatar>
-
-        <ion-label>
-          <h2>{{ friend.profileUsername }}</h2>
-          <p>{{ friend.profileEmail }}</p>
-        </ion-label>
-
-        <ion-button
-          slot="end"
-          fill="outline"
-          (click)="toggleInfo(friend)"
-          style="background-color: #7e0e9a; color: white;"
-          >
-→
-         {{ friend.expanded ? 'Hide Info' : 'View Info' }}
-
-        </ion-button>
-
-      </ion-item>
-
-      @if(friend.expanded){
-
-        <ion-card-content>
-
-          <h3>Contact Info</h3>
-
-          <p>
-            📧 {{ friend.profileEmail }}
-          </p>
-
-          <p>
-            📱 {{ friend.profilePhoneNumber }}
-          </p>
-
-          <h3>Bucket List</h3>
-
-          <p>
-            No bucket list items yet.
-          </p>
-
-          <h3>Photos</h3>
-
-          <img
-            [src]="friend.profileImageURL"
-            
-            style="max-width:200px;border-radius:12px;">
-
-        </ion-card-content>
-
-      }
-
+  <!-- ==================== TAB 1: FEED SECTION ==================== -->
+  <div *ngIf="currentTab === 'feed'">
+    <ion-card *ngFor="let post of posts">
+      <ion-card-content>
+        {{ post.text }}
+      </ion-card-content>
     </ion-card>
+    <ion-item *ngIf="posts.length === 0">
+      <ion-note class="ion-padding-start">No posts available</ion-note>
+    </ion-item>
+  </div>
 
-  }
+  <!-- ==================== TAB 2: FRIENDS SECTION ==================== -->
+  <div *ngIf="currentTab === 'friends'">
+    <ion-list-header>Pending Requests</ion-list-header>
+    <ion-list>
+      <ion-item *ngFor="let req of pendingRequests">
+        <ion-avatar slot="start">
+          <img [src]="req.profileImageURL || 'assets/profile-image-placeholder.avif'" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ req.profileUsername }}</h2>
+          <p>{{ req.profileUsername }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <!-- accept button -->
+          <ion-button color="success" (click)="accept(req.profileUsername)">Accept</ion-button>
 
-</ion-list>
+          <!-- IGNORE BUTTON -->
+          <ion-button color="medium" fill="clear" (click)="ignore(req.profileUsername)">Ignore</ion-button>
+        </ion-buttons>
+      </ion-item>
+      <ion-item *ngIf="pendingRequests.length === 0">
+        <ion-note class="ion-padding-start">No pending requests</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-list-header>My Friends</ion-list-header>
+    <ion-list>
+      <ion-item-sliding *ngFor="let friend of friends">
+        <ion-item>
+          <ion-avatar slot="start">
+            <img [src]="friend.profileImageURL || 'assets/profile-image-placeholder.avif'" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ friend.profileUsername }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeFriend(friend.profileUsername)">Remove</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item *ngIf="friends.length === 0">
+        <ion-note class="ion-padding-start">Your friends list is empty</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- ==================== TAB 3: EXPLORE SECTION ==================== -->
+  <div *ngIf="currentTab === 'explore'">
+    <ion-searchbar [(ngModel)]="searchText" (ionInput)="searchFriends()" placeholder="Search users">
+    </ion-searchbar>
+
+    <ion-list lines="none">
+      @for (friend of filteredFriends; track friend.profileUsername) {
+      <ion-card>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img [src]="friend.profileImageURL || 'assets/profile-image-placeholder.avif'">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ friend.profileUsername }}</h2>
+            <p>{{ friend.profileEmail }}</p>
+          </ion-label>
+          <div slot="end">
+
+            <!-- 1. Active Add button -->
+            <ion-button *ngIf="friend.relationStatus === 'none'" color="primary" fill="solid"
+              (click)="sendRequest(friend)">
+              <ion-icon name="person-add-outline" slot="start"></ion-icon> Add
+            </ion-button>
+
+            <!-- 2. REPLACED WITH AN ACTIVE UNADD ACTION BUTTON -->
+            <ion-button *ngIf="friend.relationStatus === 'pending'" color="danger" fill="outline"
+              (click)="unaddRequest(friend)">
+              <ion-icon name="close-circle-outline" slot="start"></ion-icon> Unadd
+            </ion-button>
+
+            <!-- 3. Active Friends badge -->
+            <ion-button *ngIf="friend.relationStatus === 'accepted'" color="success" fill="clear" disabled="true">
+              <ion-icon name="people-outline" slot="start"></ion-icon> Friends
+            </ion-button>
+
+          </div>
+          <ion-button slot="end" fill="outline" (click)="toggleInfo(friend)"
+            style="background-color: #7e0e9a; color: white;">
+            → {{ friend.expanded ? 'Hide Info' : 'View Info' }}
+          </ion-button>
+        </ion-item>
+
+        @if(friend.expanded){
+        <ion-card-content>
+          <h3>Contact Info</h3>
+          <p>📧 {{ friend.profileEmail }}</p>
+          <p>📱 {{ friend.profilePhoneNumber }}</p>
+          <h3>Bucket List</h3>
+          <p>No bucket list items yet.</p>
+          <h3>Photos</h3>
+          <img [src]="friend.profileImageURL || 'assets/profile-image-placeholder.avif'"
+            style="max-width:200px;border-radius:12px;">
+        </ion-card-content>
+        }
+      </ion-card>
+      }
+      <ion-item *ngIf="filteredFriends.length === 0">
+        <ion-note class="ion-padding-start">No users found matching your search</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+
+</ion-content>
