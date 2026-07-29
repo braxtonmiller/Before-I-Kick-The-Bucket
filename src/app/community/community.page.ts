@@ -106,9 +106,15 @@ export class CommunityPage implements OnInit {
     );
   }
 
-  toggleInfo(friend: User) {
-    friend.expanded = !friend.expanded;
+toggleInfo(friend: User) {
+
+  if (friend.relationStatus !== 'accepted') {
+    return;
   }
+
+  friend.expanded = !friend.expanded;
+
+}
 
   tabChanged(event: any) {
     // Prevent unauthenticated calls if user session hasn't loaded yet
