@@ -53,6 +53,7 @@
 
           <ion-input
             [(ngModel)]="item.title"
+            (ionChange)="onItemChange(item)"
             placeholder="Bucket List Item">
           </ion-input>
 
@@ -64,6 +65,7 @@
 
         <ion-textarea
           [(ngModel)]="item.description"
+          (ionChange)="onItemChange(item)"
           placeholder="Describe this goal...">
         </ion-textarea>
 
@@ -77,7 +79,7 @@
         <ion-button
           color="danger"
           expand="block"
-          (click)="deleteItem(item.id)">
+          (click)="deleteItem(item)">
           Delete
         </ion-button>
 
@@ -115,7 +117,7 @@
         <ion-button
           expand="block"
           color="danger"
-          (click)="deleteItem(item.id)">
+          (click)="deleteItem(item)">
           Delete
         </ion-button>
 

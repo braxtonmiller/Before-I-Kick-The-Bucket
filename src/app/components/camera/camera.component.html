@@ -1,19 +1,15 @@
 <header>
-  <button (click)="closeCamera()">
+  <ion-button (click)="closeCamera()">
     close
-  </button>
+  </ion-button>
 </header>
-
-<button (click)="cameraButton()">
-  Open Camera
-<button>
 
 <div class="camera-container">
   <!-- Live stream view -->
   <video #video autoplay playsinline width="640" height="480"></video>
   
   <div class="controls">
-    <button (click)="capture()">Capture Photo</button>
+    <ion-button (click)="capture()">Capture Photo</ion-button>
   </div>
 
   <!-- Hidden canvas used for processing the picture frame -->
