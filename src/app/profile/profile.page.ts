@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Profile } from '../models/profile';
 import { UserProfileService } from '../services/user-profile';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   profileUsernameInput: string = "";
   profileEmailInput: string = "";
   profilePhoneNumberInput: string = "";
-  profileImageURLInput: string = "";
+  profileImageURLInput: string | undefined;
 
   currentProfile?: Profile;
   private profileSub?: Subscription;
@@ -39,6 +40,28 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   editProfile() {
     this.isEditing = true;
+  }
+
+  async updateProfilePhoto() {
+    try {
+          const image = await Camera.getPhoto({
+            quality: 90,
+            allowEditing: false,
+            resultType: CameraResultType.DataUrl,
+            source: CameraSource.Photos
+          });
+    
+          this.profileImageURLInput = image.dataUrl;
+          console.log("imageBase64: " + this.profileImageURLInput)
+    
+          if (this.profileImageURLInput) {
+            
+await this.userProfileService.saveProfile({ profileImageURL: this.profileImageURLInput });
+            
+          }
+        } catch (error) {
+          console.error('User cancelled or error occurred', error);
+        }
   }
 
   async saveProfile() {
