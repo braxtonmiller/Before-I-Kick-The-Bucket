@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Profile } from '../models/profile';
 import { UserProfileService } from '../services/user-profile';
@@ -22,7 +22,8 @@ export class ProfilePage implements OnInit, OnDestroy {
   private profileSub?: Subscription;
 
   constructor(
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -52,11 +53,13 @@ export class ProfilePage implements OnInit, OnDestroy {
           });
     
           this.profileImageURLInput = image.dataUrl;
+          console.log("URL prefix:", this.profileImageURLInput?.substring(0, 30));
           console.log("imageBase64: " + this.profileImageURLInput)
     
           if (this.profileImageURLInput) {
             
 await this.userProfileService.saveProfile({ profileImageURL: this.profileImageURLInput });
+console.log("image saved to firebase")
             
           }
         } catch (error) {

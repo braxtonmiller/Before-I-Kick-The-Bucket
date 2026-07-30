@@ -54,7 +54,7 @@
     <!-- 1. DISPLAY VIEW (Shows when NOT editing) -->
     <div *ngIf="!isEditing">
       <div class="picture-container">
-  <ion-img [src]="profileImageURLInput" alt="Profile Pic" class="profilePic"></ion-img>
+  <img [src]="profileImageURLInput" class="profilePic">
 </div>
 
 <div class="profileInfo">
@@ -70,6 +70,7 @@
    <ion-buttons slot="end" *ngIf="!isEditing">
       <ion-button class="editProfileButton" (click)="isEditing = true"> <img src="assets/edit-icon.png" alt="edit-icon" style="width:20px; height:20px; vertical-align: middle; margin-right: 8px;">Edit Profile</ion-button>
     </ion-buttons>
+    <ion-button class="editProfilePic" label="Profile Picture URL" (click)="updateProfilePhoto()"> Update Profile Photo </ion-button>
     </div>
 
     <!-- 2. SETUP / EDIT FORM VIEW (Shows when editing) -->
@@ -80,9 +81,9 @@
           <ion-input label="Username" [(ngModel)]="profileUsernameInput"></ion-input>
           <ion-input label="Email" [(ngModel)]="profileEmailInput"></ion-input>
           <ion-input label="Phone Number" [(ngModel)]="profilePhoneNumberInput"></ion-input>
-          <ion-button label="Profile Picture URL" (click)="updateProfilePhoto()"> Update Profile Photo </ion-button>
         </ion-card-content>
       </ion-card>
+      
       
       <ion-button expand="block" (click)="saveProfile()">
         Save Profile
