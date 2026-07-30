@@ -33,14 +33,17 @@ export class LoginPage implements OnInit {
   }
 
   async login() {
-    let result = this.authService.login(this.emailIn, this.passwordIn);
+    let result = await this.authService.login(this.emailIn, this.passwordIn);
+    console.log(result)
 
     if (result != null) {
-      this.router.navigateByUrl('tabs/profile');
+      this.router.navigateByUrl('tabs/home');
+      console.log("chose option one")
     }
     else {
       window.alert('Incorrect Login');
       this.clearPasswords();
+      console.log("chose option two")
     }
   }
 

@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
 
       if (result != null) {
         this.router.navigateByUrl('home');
+        this.modalController.dismiss();
       }
       else {
         window.alert('Account Creation Failed');
