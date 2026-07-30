@@ -64,7 +64,8 @@ export class BucketService {
 
   async createBucketItem(): Promise<BucketItem> {
     const uid = this.authService.getCurrentUserUid()
-    const newItem = new BucketItem('', '', '', false, uid)
+    const newItem = new BucketItem('', '', '../assets/shapes.svg', false, uid)
+    console.log("new item before save: " + newItem)
     const id = await this.firebaseService.createDoc(newItem, 'bucketItems')
     newItem.id = id
     return newItem
